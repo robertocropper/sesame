@@ -10,8 +10,6 @@ const development = {
 };
 
 const production = {
-  url: process.env.DATABASE_URL,
-  /*
   user: process.env.USERNAME,
   host: process.env.HOSTNAME,
   database: process.env.DATABASE,
@@ -20,7 +18,7 @@ const production = {
   ssl: {
     rejectUnauthorized: true,
     ca: process.env.CA_CERT,
-  },*/
+  },
 };
 
 const pool = new Pool(
