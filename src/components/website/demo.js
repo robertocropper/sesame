@@ -138,7 +138,7 @@ const projects = [
 export function Demo() {
   const [projectIsOpen, setProjectIsOpen] = useState(false);
   const [id, setId] = useState("");
-  const [enabled, setEnabled] = useState(true);
+  const [enabled, setEnabled] = useState(false);
   const [filteredProjects, setFilteredProjects] = useState(projects);
   const [imageLength, setImageLength] = useState();
 
