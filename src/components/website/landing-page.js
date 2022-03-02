@@ -10,7 +10,7 @@ export function LandingPage() {
       <div className="w-screen mx-auto">
         <div className="pt-20 text-center ">
           <h1 className="text-4xl font-extrabold text-zinc-800 xl:text-6xl">
-            Make It A No-Brainer For Your Prospects
+            Make It Irrestiable For Your Prospects
           </h1>
 
           <h1 className="pt-6 font-mono text-md text-zinc-900 text-shadow-2xl shadow-blue-600 xl:pt-7 xl:text-2xl">
