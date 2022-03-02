@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js",
     "dev": "nodemon server.js",
-    "build": "webpack --config webpack.prod.js"
+    "build": "webpack --config webpack.prod.js",
+    "build:start": "node server.js"
   },
   "devDependencies": {
     "nodemon": "^2.0.15",
