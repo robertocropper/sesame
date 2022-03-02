@@ -258,7 +258,7 @@ export function Demo() {
                     {imageLength >= 1 ? (
                       <div className="grid grid-flow-col grid-rows-1 px-6 mt-4 overflow-x-auto max-h-76">
                         <img
-                          src={`${process.env.APP_URL}/assets/demo/${id.filenames[0]}`}
+                          src={`https://sesame-d9wj8.ondigitalocean.app/assets/demo/${id.filenames[0]}`}
                           className="object-scale-down rounded-sm max-w-72 max-h-72"
                         />
                       </div>
@@ -481,7 +481,7 @@ export function Demo() {
                             <>
                               <div className="overflow-hidden h-fit w-72">
                                 <img
-                                  src={`${process.env.APP_URL}/assets/demo/${project.filenames[0]}`}
+                                  src={`https://sesame-d9wj8.ondigitalocean.app/assets/demo/${project.filenames[0]}`}
                                 />
                               </div>
                             </>
