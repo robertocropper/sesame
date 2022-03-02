@@ -9,14 +9,12 @@ export function LandingPage() {
     <>
       <div className="w-screen mx-auto">
         <div className="pt-20 text-center ">
-          <h1 className="text-4xl font-extrabold text-zinc-800 xl:text-6xl">
+          <h1 className="text-4xl font-extrabold text-zinc-800 md:xl-text-5xl xl:text-6xl">
             Make It A No-Brainer For Your Prospects
           </h1>
-
           <h1 className="pt-6 font-mono text-md text-zinc-900 text-shadow-2xl shadow-blue-600 xl:pt-7 xl:text-2xl">
-            By Showcasing Your Client-Jobs Thoroughly & Transparently
+            By Showcasing Your Client-Jobs Openly In A Chronological Worklog
           </h1>
-
           <span className="my-2 inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
             For Freelancers & Small, Medium-Sized Enterprises
           </span>
