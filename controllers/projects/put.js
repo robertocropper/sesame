@@ -1,50 +1,62 @@
 const pool = require("../../database");
 
 async function editProject(req, res) {
-  const {
+  var {
     clientObjective,
-    objectiveOption,
     service,
-    niche,
+    keyInfo,
+    description,
+    status,
     duration,
-    unitOption,
+    durationUnit,
+    costAmount,
+    costCurrency,
     dateCompleted,
-    cost,
-    currencyOption,
-    specifications,
-    process,
-    outcome,
+    clientName,
+    clientIndustry,
+    clientNiche,
+    clientWords,
   } = req.body;
+  if (dateCompleted === "" || "undefined") {
+    var dateCompleted = null;
+  }
   const pid = req.params.pid;
+  const filenames = req.files.map(({ filename }) => filename);
   try {
     const editedProject = await pool.query(
-      `UPDATE projects SET
+      `UPDATE PROJECTS SET
         clientObjective = $1,
-        objectiveOption = $2, 
-        service = $3, 
-        niche = $4, 
-        duration = $5, 
-        unitOption = $6, 
-        dateCompleted = $7, 
-        cost = $8,
-        currencyOption = $9, 
-        specifications = $10, 
-        process = $11, 
-        outcome = $12
-        WHERE pid = $13 AND uid = $14`,
+        service = $2, 
+        keyInfo = $3
+        description = $4, 
+        status = $5, 
+        duration = $6, 
+        durationUnit = $7, 
+        costAmount = $8, 
+        costCurrency = $9, 
+        dateCompleted = $10, 
+        clientName = $11,
+        clientIndustry = $12, 
+        clientNiche = $13, 
+        clientWords = $14,
+        filenames = $15
+        WHERE pid = $16 AND uid = $16`,
       [
         clientObjective,
-        objectiveOption,
         service,
-        niche,
+        keyInfo,
+        description,
+        status,
         duration,
-        unitOption,
+        durationUnit,
+        costAmount,
+        costCurrency,
         dateCompleted,
-        cost,
-        currencyOption,
-        specifications,
-        process,
-        outcome,
+        clientName,
+        clientIndustry,
+        clientNiche,
+        clientWords,
+        filenames,
         pid,
         req.user,
       ]

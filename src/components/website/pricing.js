@@ -106,10 +106,13 @@ export function Pricing() {
                         />
                       </Switch>
                       <Switch.Label as="span" className="ml-3">
-                        <span className="text-sm font-medium text-zinc-900">
+                        <span className="text-sm font-medium text-gray-900">
                           Annual billing
                         </span>
-                        <span className="text-sm text-zinc-500">(30% OFF)</span>
+                        <span className="text-sm text-zinc-500">
+                          {" "}
+                          (30% OFF)
+                        </span>
                       </Switch.Label>
                     </Switch.Group>
                   </p>

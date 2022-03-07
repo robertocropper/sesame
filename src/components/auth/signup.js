@@ -77,7 +77,7 @@ export function SignUp() {
   };
 
   return (
-    <div className="h-screen max-w-4xl mx-auto mt-16 sm:px-6 lg:px-8">
+    <div className="max-w-4xl min-h-screen mx-auto mt-10  sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="text-3xl font-extrabold text-center text-gray-900">
           Signup
@@ -99,7 +99,7 @@ export function SignUp() {
                   required
                   values={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
-                  className="block w-full px-4 py-2 border rounded-md sm:text-sm focus:outline-none focus:ring-gray-900 focus:border-blue-600"
+                  className="block w-full mx-auto px-4 py-2 border-gray-300 rounded-md shadow-sm sm:text-sm focus:ring-blue-600 focus:border-blue-600 sm:max-w-xs sm:text-sm"
                 />
                 {displayNameError ? (
                   <div className="flex">
@@ -126,7 +126,7 @@ export function SignUp() {
                     required
                     values={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="block w-full px-4 py-2 border rounded-md sm:text-sm focus:outline-none focus:ring-gray-900 focus:border-blue-600"
+                    className="block w-full mx-auto px-4 py-2 border-gray-300 rounded-md shadow-sm sm:text-sm focus:ring-blue-600 focus:border-blue-600 sm:max-w-xs sm:text-sm"
                   />
                   {emailError ? (
                     <div className="flex">
@@ -149,7 +149,7 @@ export function SignUp() {
                     required
                     values={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="block w-full px-4 py-2 border rounded-md sm:text-sm focus:outline-none focus:ring-gray-900 focus:border-blue-600"
+                    className="block w-full mx-auto px-4 py-2 border-gray-300 rounded-md shadow-sm sm:text-sm focus:ring-blue-600 focus:border-blue-600 sm:max-w-xs sm:text-sm"
                   />
                   {passwordError ? (
                     <div className="flex">
@@ -168,7 +168,7 @@ export function SignUp() {
                         name="terms"
                         type="checkbox"
                         onChange={(e) => setTerms(e.target.checked)}
-                        className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                        className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-600"
                       />
                     </div>
                     <div className="flex ml-3 text-sm">

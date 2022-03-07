@@ -1,120 +1,113 @@
-import React, { Fragment, useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
-import { Listbox, Transition } from "@headlessui/react";
-import {
-  ExclamationCircleIcon,
-  SelectorIcon,
-  XIcon,
-} from "@heroicons/react/solid";
+import { useNavigate, useParams } from "react-router";
+import { UserContext } from "../../App";
+import { Link } from "react-router-dom";
+import { ExclamationCircleIcon } from "@heroicons/react/solid";
 
-const objectiveOptions = [
-  "Yes",
-  "No",
-  "Expectations Were Too High",
-  "Read To Understand The Context",
-];
-
-const unitOptions = ["hr", "d", "mo", "yr"];
-
-const currencyOptions = ["USD", "GBP", "EUR"];
-
-export function Edit({ id, closeEditModal, setShowEditNotification }) {
+export function Edit({ id, closeEditModal }) {
+  const navigate = useNavigate();
+  const { user } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [clientObjective, setClientObjective] = useState(id.clientobjective);
-  const [niche, setNiche] = useState(id.niche);
-  const [service, setService] = useState(id.service);
-  const [duration, setDuration] = useState(id.duration);
-  const [cost, setCost] = useState(id.cost);
-  const [specifications, setSpecifications] = useState(id.specifications);
-  const [process, setProcess] = useState(id.process);
-  const [outcome, setOutcome] = useState(id.outcome);
-  const [dateCompleted, setDateCompleted] = useState(id.to_char);
-  const [objectiveOption, setObjectiveOption] = useState(id.objectiveoption);
-  const [unitOption, setUnitOption] = useState(id.unitoption);
-  const [currencyOption, setCurrencyOption] = useState(id.currencyoption);
+  const [project, setProject] = useState([]);
+  const [update, setUpdate] = useState(false);
 
-  const [clientNameError, setClientNameError] = useState("");
+  const { uid, pid } = useParams();
+  /*
+  useEffect(() => {
+    getUserProject();
+  }, []);
+
+  function getUserProject() {
+    setLoading(true);
+    axios
+      .get(`/api/user/${uid}/${pid}`)
+      .then((res) => {
+        console.log(res);
+        setProject(res.data.project);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+*/
+
+  const [clientObjective, setClientObjective] = useState(id.clientobjective);
+  const [service, setService] = useState(id.service);
+  const [description, setDescription] = useState(id.description);
+  const [selectedFile, setSelectedFile] = useState(id.filenames);
+
+  const [status, setStatus] = useState(id.status);
+  const [duration, setDuration] = useState(id.duration);
+  const [durationUnit, setDurationUnit] = useState(id.durationunit);
+  const [costAmount, setCostAmount] = useState(id.costamount);
+  const [costCurrency, setCostCurrency] = useState(id.costcurrency);
+  const [dateCompleted, setDateCompleted] = useState(id.dateCompleted);
+
+  const [clientName, setClientName] = useState(id.clientname);
+  const [clientIndustry, setClientIndustry] = useState(id.clientindustry);
+  const [clientNiche, setClientNiche] = useState(id.clientniche);
+  const [clientWords, setClientWords] = useState(id.clientwords);
+
+  // errors
+
   const [clientObjectiveError, setClientObjectiveError] = useState("");
-  const [nicheError, setNicheError] = useState("");
   const [serviceError, setServiceError] = useState("");
+  const [descriptionError, setDescriptionError] = useState("");
+
+  const [statusError, setStatusError] = useState("");
   const [durationError, setDurationError] = useState("");
   const [costError, setCostError] = useState("");
-  const [specificationsError, setSpecificationsError] = useState("");
-  const [processError, setProcessError] = useState("");
-  const [outcomeError, setOutcomeError] = useState("");
-  const [dateCompletedError, setDateCompletedError] = useState("");
+
+  const [error, setError] = useState(false);
 
   const validate = () => {
     let clientObjectiveError = "";
-    let clientNameError = "";
-    let nicheError = "";
     let serviceError = "";
+    let descriptionError = "";
+    let statusError = "";
     let durationError = "";
     let costError = "";
-    let specificationsError = "";
-    let processError = "";
-    let outcomeError = "";
-    let dateCompletedError = "";
 
     if (!clientObjective) {
       clientObjectiveError = "Please complete field";
-    }
-
-    if (!niche) {
-      nicheError = "Please complete field";
     }
 
     if (!service) {
       serviceError = "Please complete field";
     }
 
-    if (!duration) {
-      durationError = "Please complete field";
+    if (!description) {
+      descriptionError = "Please complete field";
     }
 
-    if (!cost) {
+    if (!status) {
+      statusError = "Please complete both fields";
+    }
+
+    if (!duration || !durationUnit) {
+      durationError = "Please complete both fields";
+    }
+
+    if (!costAmount || !costCurrency) {
       costError = "Please complete field";
-    }
-
-    if (!specifications) {
-      specificationsError = "Please complete field";
-    }
-
-    if (!process) {
-      processError = "Please complete field";
-    }
-
-    if (!outcome) {
-      outcomeError = "Please complete field";
-    }
-
-    if (!dateCompleted) {
-      dateCompletedError = "Please complete field";
     }
 
     if (
       clientObjectiveError ||
-      clientNameError ||
-      nicheError ||
       serviceError ||
+      descriptionError ||
+      statusError ||
       durationError ||
-      costError ||
-      specificationsError ||
-      processError ||
-      outcomeError ||
-      dateCompletedError
+      costError
     ) {
       setClientObjectiveError(clientObjectiveError);
-      setClientNameError(clientNameError);
-      setNicheError(nicheError);
       setServiceError(serviceError);
+      setDescriptionError(descriptionError);
+      setStatusError(statusError);
       setDurationError(durationError);
       setCostError(costError);
-      setSpecificationsError(specificationsError);
-      setProcessError(processError);
-      setOutcomeError(outcomeError);
-      setDateCompletedError(dateCompletedError);
       return false;
     }
     return true;
@@ -122,513 +115,409 @@ export function Edit({ id, closeEditModal, setShowEditNotification }) {
 
   async function handlePublish() {
     try {
+      /*
       const valid = validate();
       if (!valid) return false;
+      */
       setLoading(true);
-      const body = {
-        clientObjective,
-        niche,
-        service,
-        duration,
-        cost,
-        specifications,
-        process,
-        outcome,
-        dateCompleted,
-        objectiveOption,
-        unitOption,
-        currencyOption,
-      };
-      axios.put(`/api/user/${id.pid}/edit`, body);
+      const form = new FormData();
+      form.append("clientObjective", clientObjective);
+      form.append("service", service);
+      form.append("description", description);
+      for (let i = 0; i < selectedFile.length; i++) {
+        form.append("selectedFile", selectedFile[i]);
+      }
+      form.append("status", status);
+      form.append("duration", duration);
+      form.append("durationUnit", durationUnit);
+      form.append("costAmount", costAmount);
+      form.append("costCurrency", costCurrency);
+      form.append("dateCompleted", dateCompleted);
+      form.append("clientName", clientName);
+      form.append("clientIndustry", clientIndustry);
+      form.append("clientNiche", clientNiche);
+      form.append("clientWords", clientWords);
+      axios.put(`/api/user/${id.pid}/edit`, form, {
+        headers: {
+          type: "multipart/form-data",
+        },
+      });
       console.log(id.pid);
-      //window.location.reload(true);
+      window.location.reload(true);
       closeEditModal(true);
       console.log(body);
-      setShowEditNotification(true);
     } catch (err) {
       console.log(err);
     } finally {
       setLoading(false);
+      setUpdate(true);
     }
   }
 
+  useEffect(() => {}, [status, update]);
+
   return (
-    <div>
-      <div className="flex justify-end text-left border-b ">
-        <button
-          onClick={closeEditModal}
-          className="flex items-center justify-start px-4 py-2 hover:bg-gray-100"
-        >
-          <XIcon className="w-6 h-5 text-gray-700" />
-        </button>
-      </div>
-      <div className="mx-6 my-8">
-        <div className="flex pb-6 space-x-4">
-          <h1 className="text-2xl font-bold text-zinc-700">Edit</h1>
-        </div>
-
-        <div>
-          <div className="pb-8">
-            <label className="block mt-4 font-medium text-gray-700 text-1xl">
-              Client's Objective
-            </label>
-            <div className="mt-1">
-              <input
-                type="text"
-                name="clientObjective"
-                values={clientObjective}
-                value={clientObjective}
-                autofocus={false}
-                onChange={(e) => setClientObjective(e.target.value)}
-                className="block w-full px-4 py-2 border rounded-md sm:text-sm focus:outline-none focus:ring-gray-900 focus:border-blue-600"
-              />
-              {clientObjectiveError ? (
-                <div className="flex">
-                  <ExclamationCircleIcon className="w-5 h-5 mt-4 mr-1 text-red-500" />
-
-                  <p className="mt-4 text-sm text-red-600" id="email-error">
-                    {clientObjectiveError}
+    <div className="max-w-5xl px-2 mx-auto my-10 ">
+      <div className="space-y-8 divide-y divide-gray-200">
+        <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
+          <div>
+            <div>
+              {project.map((project) => (
+                <>
+                  <h3 className="text-2xl font-bold leading-6 text-zinc-700">
+                    Editing "{project.clientobjective}"
+                  </h3>
+                  <p className="max-w-2xl mt-1 text-sm text-gray-500">
+                    Showcase A Job You Did For A Client.
                   </p>
-                </div>
-              ) : null}
+                </>
+              ))}
             </div>
-          </div>
-          <div className="pb-8">
-            <label className="block mt-4 font-medium text-gray-700 text-1xl">
-              Objective Completed
-            </label>
-            <div className="w-72">
-              <Listbox
-                values={objectiveOption}
-                value={objectiveOption}
-                onChange={setObjectiveOption}
-              >
-                <div className="relative mt-1">
-                  <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white border rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
-                    <span className="block truncate">{objectiveOption}</span>
-                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                      <SelectorIcon
-                        className="w-5 h-5 text-gray-400 cursor-pointer"
+
+            <div className="mt-6 space-y-6 sm:mt-5 sm:space-y-5">
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                <label className="block font-medium text-gray-700 text-md sm:mt-px sm:pt-2">
+                  Client's Objective*
+                </label>
+                <div className="flex items-center mt-1 sm:mt-0 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="clientObjective"
+                    values={clientObjective}
+                    value={clientObjective}
+                    onChange={(e) => setClientObjective(e.target.value)}
+                    autoComplete="off"
+                    className="block w-full max-w-lg border-gray-300 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 sm:max-w-xs sm:text-sm"
+                  />
+                  {clientObjectiveError ? (
+                    <ExclamationCircleIcon className="ml-1 text-red-500 h-7 w-7" />
+                  ) : null}
+                </div>
+              </div>
+
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                <label className="block font-medium text-gray-700 text-md sm:mt-px sm:pt-2">
+                  Service*
+                </label>
+                <div className="flex items-center mt-1 sm:mt-0 sm:col-span-2">
+                  <input
+                    type="text"
+                    name="service"
+                    values={service}
+                    value={service}
+                    onChange={(e) => setService(e.target.value)}
+                    autoComplete="off"
+                    className="block w-full max-w-lg border-gray-300 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 sm:max-w-xs sm:text-sm"
+                  />
+                  {serviceError ? (
+                    <ExclamationCircleIcon className="ml-1 text-red-500 h-7 w-7" />
+                  ) : null}
+                </div>
+              </div>
+
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                <label className="block font-medium text-gray-700 text-md sm:mt-px sm:pt-2">
+                  About The Project & Outcome*
+                </label>
+                <div className="flex items-center mt-1 sm:mt-0 sm:col-span-2">
+                  <textarea
+                    type="text"
+                    name="description"
+                    values={description}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    autoComplete="off"
+                    className="block w-full max-w-lg border border-gray-300 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 sm:text-sm"
+                  />
+                  {descriptionError ? (
+                    <ExclamationCircleIcon className="ml-1 text-red-500 h-7 w-7" />
+                  ) : null}
+                </div>
+              </div>
+
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                <label
+                  htmlFor="cover-photo"
+                  className="block font-medium text-gray-700 text-mmd sm:mt-px sm:pt-2"
+                >
+                  Visual Results?
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <div className="flex justify-center max-w-lg px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                    <div className="space-y-1 text-center">
+                      <svg
+                        className="w-12 h-12 mx-auto text-gray-400"
+                        stroke="currentColor"
+                        fill="none"
+                        viewBox="0 0 48 48"
                         aria-hidden="true"
-                      />
-                    </span>
-                  </Listbox.Button>
-                  <Transition
-                    as={Fragment}
-                    leave="transition ease-in duration-100"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
+                      >
+                        <path
+                          d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                          strokeWidth={2}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <div className="flex text-sm text-gray-600">
+                        <label className="relative font-medium text-blue-600 bg-white rounded-md cursor-pointer hover:underline">
+                          <span>Upload a file</span>
+                          <input
+                            id="file-upload"
+                            name="file-upload"
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            onChange={(e) => setSelectedFile(e.target.files)}
+                            className="sr-only"
+                          />
+                        </label>
+                        <p className="pl-1">or drag and drop</p>
+                      </div>
+                      <p className="text-xs text-gray-500">
+                        PNG, JPG, GIF up to 10MB
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-8 space-y-6 sm:pt-10 sm:space-y-5">
+            <div>
+              <h3 className="text-2xl font-bold leading-6 text-zinc-700">
+                Job Details
+              </h3>
+              <p className="max-w-2xl mt-1 text-sm text-gray-500">
+                Use a permanent address where you can receive mail.
+              </p>
+            </div>
+            <div className="space-y-6 sm:space-y-5">
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                <label className="block font-medium text-gray-700 text-md sm:mt-px sm:pt-2">
+                  Status*
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <select
+                    type="text"
+                    values={status}
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    autoComplete="off"
+                    className="block w-full max-w-lg border-gray-300 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 sm:max-w-xs sm:text-sm"
                   >
-                    <Listbox.Options className="w-full py-1 mt-1 overflow-auto text-sm bg-white border rounded-md max-h-60 sm:text-sm">
-                      {objectiveOptions.map(
-                        (selectObjective, selectObjectiveIdx) => (
-                          <Listbox.Option
-                            key={selectObjectiveIdx}
-                            className={({ active }) =>
-                              `${active ? "text-gray-900" : "text-gray-900"}
-                          cursor-pointer select-none relative py-2 px-4`
-                            }
-                            value={selectObjective}
-                          >
-                            {({ objectiveOption, active }) => (
-                              <>
-                                <span
-                                  className={`${
-                                    objectiveOption
-                                      ? "font-medium"
-                                      : "font-normal"
-                                  } block truncate`}
-                                >
-                                  {selectObjective}
-                                </span>
-                                {selectObjective ? (
-                                  <span
-                                    className={`${
-                                      active ? "text-gray-900" : "text-gray-900"
-                                    }
-                                absolute flex items-center`}
-                                  ></span>
-                                ) : null}
-                              </>
-                            )}
-                          </Listbox.Option>
-                        )
-                      )}
-                    </Listbox.Options>
-                  </Transition>
+                    <option>Completed</option>
+                    <option>Ongoing</option>
+                  </select>
                 </div>
-              </Listbox>
-            </div>
-          </div>
-          <div className="pb-8">
-            <label className="block mt-4 font-medium text-gray-700 text-1xl">
-              Service
-            </label>
-            <div className="mt-1">
-              <input
-                type="text"
-                name="service"
-                values={service}
-                value={service}
-                onChange={(e) => setService(e.target.value)}
-                className="block w-full px-4 py-2 border rounded-md sm:text-sm focus:outline-none focus:ring-gray-900 focus:border-blue-600"
-              />
-              {serviceError ? (
-                <div className="flex">
-                  <ExclamationCircleIcon className="w-5 h-5 mt-4 mr-1 text-red-500" />
+              </div>
 
-                  <p className="mt-4 text-sm text-red-600" id="email-error">
-                    {serviceError}
-                  </p>
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                <label className="block font-medium text-gray-700 text-md sm:mt-px sm:pt-2">
+                  Cost*
+                </label>
+                <div className="flex items-center mt-1 space-x-2 sm:mt-0 sm:col-span-2">
+                  <input
+                    type="number"
+                    values={costAmount}
+                    value={costAmount}
+                    onChange={(e) => setCostAmount(e.target.value)}
+                    autoComplete="off"
+                    className="block w-full max-w-lg border-gray-300 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 sm:max-w-xs sm:text-sm"
+                  />
+                  <select
+                    type="text"
+                    values={costCurrency}
+                    value={costCurrency}
+                    onChange={costCurrency}
+                    autoComplete="off"
+                    className="block max-w-lg pr-10 border-gray-300 rounded-md shadow-sm w-18 focus:ring-blue-600 focus:border-blue-600 sm:max-w-xs sm:text-sm"
+                  >
+                    <option>USD</option>
+                    <option>GBP</option>
+                    <option>EUR</option>
+                    <option>YEN</option>
+                  </select>
+                  {costError ? (
+                    <ExclamationCircleIcon className="ml-1 text-red-500 h-7 w-7" />
+                  ) : null}
                 </div>
-              ) : null}
-            </div>
-          </div>
-          <div className="pb-8">
-            <label className="block mt-4 font-medium text-gray-700 text-1xl">
-            Niched Info (Any extra info you want highlighted)
-            </label>
-            <div className="mt-1">
-              <input
-                type="text"
-                name="niche"
-                values={niche}
-                value={niche}
-                onChange={(e) => setNiche(e.target.value)}
-                className="block w-full px-4 py-2 border rounded-md sm:text-sm focus:outline-none focus:ring-gray-900 focus:border-blue-600"
-              />
-              {nicheError ? (
-                <div className="flex">
-                  <ExclamationCircleIcon className="w-5 h-5 mt-4 mr-1 text-red-500" />
+              </div>
 
-                  <p className="mt-4 text-sm text-red-600" id="email-error">
-                    {nicheError}
-                  </p>
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                <label className="block font-medium text-gray-700 text-md sm:mt-px sm:pt-2">
+                  Duration*
+                </label>
+                <div className="flex items-center mt-1 space-x-2 sm:mt-0 sm:col-span-2">
+                  <input
+                    type="number"
+                    values={duration}
+                    value={duration}
+                    onChange={(e) => setDuration(e.target.value)}
+                    autoComplete="off"
+                    className="block w-full max-w-lg border-gray-300 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 sm:max-w-xs sm:text-sm"
+                  />
+                  <select
+                    type="text"
+                    values={durationUnit}
+                    onChange={(e) => setDurationUnit(e.target.value)}
+                    autoComplete="off"
+                    className="block max-w-lg pr-10 border-gray-300 rounded-md shadow-sm w-18 focus:ring-blue-600 focus:border-blue-600 sm:max-w-xs sm:text-sm"
+                  >
+                    <option>min</option>
+
+                    <option>hr</option>
+                    <option>d</option>
+                    <option>w</option>
+                    <option>mo</option>
+                    <option>y</option>
+                  </select>
+                  {durationError ? (
+                    <ExclamationCircleIcon className="ml-1 text-red-500 h-7 w-7" />
+                  ) : null}
                 </div>
-              ) : null}
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-10">
-            <div>
-              <label className="block mt-4 font-medium text-gray-700 w-18 text-1xl">
-                Duration
-              </label>
-              <div className="mt-1">
-                <input
-                  type="text"
-                  name="duration"
-                  values={duration}
-                  value={duration}
-                  onChange={(e) => setDuration(e.target.value)}
-                  className="block w-full px-4 py-2 border rounded-md sm:text-sm focus:outline-none focus:ring-gray-900 focus:border-blue-600"
-                />
-                {durationError ? (
-                  <div className="flex">
-                    <ExclamationCircleIcon className="w-5 h-5 mt-4 mr-1 text-red-500" />
-
-                    <p className="mt-4 text-sm text-red-600" id="email-error">
-                      {durationError}
-                    </p>
-                  </div>
-                ) : null}
               </div>
             </div>
+            {status === "Completed" ? (
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                <label className="block font-medium text-gray-700 text-md sm:mt-px sm:pt-2">
+                  Date Completed
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <input
+                    type="date"
+                    values={dateCompleted}
+                    value={dateCompleted}
+                    onChange={(e) => setDateCompleted(e.target.value)}
+                    autoComplete="off"
+                    className="block w-full max-w-lg border-gray-300 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 sm:max-w-xs sm:text-sm"
+                  />
+                </div>
+              </div>
+            ) : null}
+          </div>
+          <div className="pt-8 space-y-6 sm:pt-10 sm:space-y-5">
             <div>
-              <label className="block mt-4 font-medium text-gray-700 text-1xl">
-                Unit
-              </label>
-              <div>
-                <Listbox
-                  values={unitOption}
-                  value={unitOption}
-                  onChange={setUnitOption}
+              <h3 className="text-2xl font-bold leading-6 text-zinc-700">
+                Client Details
+              </h3>
+              <p className="max-w-2xl mt-1 text-sm text-gray-500">
+                We recommend confirming if the client is ok with the info
+                published.
+              </p>
+            </div>
+            <div className="space-y-6 sm:space-y-5">
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                <label className="block font-medium text-gray-700 text-md sm:mt-px sm:pt-2">
+                  Client Name
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <input
+                    type="text"
+                    values={clientName}
+                    value={clientName}
+                    onChange={(e) => setClientName(e.target.value)}
+                    autoComplete="off"
+                    className="block w-full max-w-lg border-gray-300 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 sm:max-w-xs sm:text-sm"
+                  />
+                </div>
+              </div>
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                <label
+                  htmlFor="state"
+                  className="block font-medium text-gray-700 text-md sm:mt-px sm:pt-2"
                 >
-                  <div className="relative mt-1">
-                    <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white border rounded-md cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
-                      <span className="block truncate ">{unitOption}</span>
-                      <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                        <SelectorIcon
-                          className="w-5 h-5 text-gray-400 cursor-pointer"
-                          aria-hidden="true"
-                        />
-                      </span>
-                    </Listbox.Button>
-                    <Transition
-                      as={Fragment}
-                      leave="transition ease-in duration-100"
-                      leaveFrom="opacity-100"
-                      leaveTo="opacity-0"
-                    >
-                      <Listbox.Options className="w-full py-1 mt-1 overflow-auto text-sm border rounded-md max-h-60 sm:text-sm">
-                        {unitOptions.map((selectUnit, selectUnitIdx) => (
-                          <Listbox.Option
-                            key={selectUnitIdx}
-                            className={({ active }) =>
-                              `${active ? "text-gray-900" : "text-gray-900"}
-                          cursor-pointer select-none relative py-2 px-3`
-                            }
-                            value={selectUnit}
-                          >
-                            {({ unitOption, active }) => (
-                              <>
-                                <span
-                                  className={`${
-                                    unitOption ? "font-medium" : "font-normal"
-                                  } block truncate`}
-                                >
-                                  {selectUnit}
-                                </span>
-                                {selectUnit ? (
-                                  <span
-                                    className={`${
-                                      active ? "text-gray-900" : "text-gray-900"
-                                    }
-                                absolute flex items-center`}
-                                  ></span>
-                                ) : null}
-                              </>
-                            )}
-                          </Listbox.Option>
-                        ))}
-                      </Listbox.Options>
-                    </Transition>
-                  </div>
-                </Listbox>
+                  Client Industry
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <input
+                    type="text"
+                    values={clientIndustry}
+                    value={clientIndustry}
+                    onChange={(e) => setClientIndustry(e.target.value)}
+                    autoComplete="off"
+                    className="block w-full max-w-lg border-gray-300 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 sm:max-w-xs sm:text-sm"
+                  />
+                </div>
               </div>
-            </div>
-            <div className="pb-8">
-              <label className="block w-full mt-4 font-medium text-gray-700 text-1xl">
-                Date Completed
-              </label>
-              <div className="mt-1">
-                <input
-                  type="date"
-                  name="date"
-                  values={dateCompleted}
-                  value={dateCompleted}
-                  onChange={(e) => setDateCompleted(e.target.value)}
-                  className="block w-full px-4 py-2 border rounded-md sm:text-sm focus:outline-none focus:border-blue-600"
-                />
-                {dateCompletedError ? (
-                  <div className="flex">
-                    <ExclamationCircleIcon className="w-5 h-5 mt-4 mr-1 text-red-500" />
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                <label className="block font-medium text-gray-700 text-md sm:mt-px sm:pt-2">
+                  Client Niche
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <input
+                    type="text"
+                    values={clientNiche}
+                    value={clientNiche}
+                    onChange={(e) => setClientNiche(e.target.value)}
+                    autoComplete="off"
+                    className="block w-full max-w-lg border-gray-300 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 sm:max-w-xs sm:text-sm"
+                  />
+                </div>
+              </div>
 
-                    <p className="mt-4 text-sm text-red-600" id="email-error">
-                      {dateCompletedError}
-                    </p>
-                  </div>
-                ) : null}
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                <label className="block font-medium text-gray-700 text-md sm:mt-px sm:pt-2">
+                  Client Words
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <textarea
+                    type="text"
+                    values={clientWords}
+                    value={clientWords}
+                    onChange={(e) => setClientWords(e.target.value)}
+                    autoComplete="off"
+                    rows={3}
+                    className="block w-full max-w-lg border border-gray-300 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 sm:text-sm"
+                  />
+                  <p className="mt-2 text-sm text-gray-500">
+                    What did the client have to say?
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-4 gap-4 w-96">
-            <div className="col-span-3 pb-8">
-              <label className="block mt-4 font-medium text-gray-700 text-1xl">
-                Cost
-              </label>
-              <div className="mt-1">
-                <input
-                  type="number"
-                  name="cost"
-                  values={cost}
-                  value={cost}
-                  onChange={(e) => setCost(e.target.value)}
-                  className="block w-full px-4 py-2 border rounded-md sm:text-sm focus:outline-none focus:ring-gray-900 focus:border-blue-600"
-                  placeholder="20000"
-                />
-                {costError ? (
-                  <div className="flex">
-                    <ExclamationCircleIcon className="w-5 h-5 mt-4 mr-1 text-red-500" />
 
-                    <p className="mt-4 text-sm text-red-600" id="email-error">
-                      {costError}
-                    </p>
-                  </div>
-                ) : null}
-              </div>
-            </div>
+          <div className="pt-8 space-y-6 sm:pt-10 sm:space-y-5">
             <div>
-              <label className="block mt-4 font-medium text-gray-700 text-1xl">
-                Currency
-              </label>
-              <div>
-                <Listbox
-                  values={currencyOption}
-                  value={currencyOption}
-                  onChange={setCurrencyOption}
-                >
-                  <div className="relative mt-1">
-                    <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white border rounded-md cursor-pointer focus:outline-none sm:text-sm">
-                      <span className="block truncate ">{currencyOption}</span>
-                      <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                        <SelectorIcon
-                          className="w-5 h-5 text-gray-400 cursor-pointer"
-                          aria-hidden="true"
-                        />
-                      </span>
-                    </Listbox.Button>
-                    <Transition
-                      as={Fragment}
-                      leave="transition ease-in duration-100"
-                      leaveFrom="opacity-100"
-                      leaveTo="opacity-0"
-                    >
-                      <Listbox.Options className="w-full py-1 mt-1 overflow-auto text-sm bg-white border rounded-md max-h-60 sm:text-sm">
-                        {currencyOptions.map(
-                          (selectCurrency, selectCurrencyIdx) => (
-                            <Listbox.Option
-                              key={selectCurrencyIdx}
-                              className={({ active }) =>
-                                `${active ? "text-gray-900" : "text-gray-900"}
-                          cursor-pointer select-none relative py-2 px-3`
-                              }
-                              value={selectCurrency}
-                            >
-                              {({ currencyOption, active }) => (
-                                <>
-                                  <span
-                                    className={`${
-                                      currencyOption
-                                        ? "font-medium"
-                                        : "font-normal"
-                                    } block truncate`}
-                                  >
-                                    {selectCurrency}
-                                  </span>
-                                  {selectCurrency ? (
-                                    <span
-                                      className={`${
-                                        active
-                                          ? "text-gray-900"
-                                          : "text-gray-900"
-                                      }
-                                absolute flex items-center `}
-                                    ></span>
-                                  ) : null}
-                                </>
-                              )}
-                            </Listbox.Option>
-                          )
-                        )}
-                      </Listbox.Options>
-                    </Transition>
-                  </div>
-                </Listbox>
-              </div>
-            </div>
-          </div>
-          <div className="pb-8">
-            <label className="block mt-4 font-medium text-gray-700 text-1xl">
-              Specifications of Job
-            </label>
-            <div className="mt-1">
-              <textarea
-                type="text"
-                name="intro"
-                values={specifications}
-                value={specifications}
-                onChange={(e) => setSpecifications(e.target.value)}
-                className="block w-full px-4 py-2 border rounded-md sm:text-sm focus:outline-none focus:ring-gray-900 focus:border-blue-600"
-                rows={10}
-              />
-              {specificationsError ? (
-                <div className="flex">
-                  <ExclamationCircleIcon className="w-5 h-5 mt-4 mr-1 text-red-500" />
-
-                  <p className="mt-4 text-sm text-red-600" id="email-error">
-                    {specificationsError}
-                  </p>
-                </div>
-              ) : null}
-            </div>
-          </div>
-          <div className="pb-8">
-            <label className="block mt-4 font-medium text-gray-700 text-1xl">
-              Process & Approach To Job
-            </label>
-            <div className="mt-1">
-              <textarea
-                type="text"
-                name="process"
-                values={process}
-                value={process}
-                onChange={(e) => setProcess(e.target.value)}
-                className="block w-full px-4 py-2 border rounded-md sm:text-sm focus:outline-none focus:ring-gray-900 focus:border-blue-600"
-                rows={10}
-              />
-              {processError ? (
-                <div className="flex">
-                  <ExclamationCircleIcon className="w-5 h-5 mt-4 mr-1 text-red-500" />
-
-                  <p className="mt-4 text-sm text-red-600" id="email-error">
-                    {processError}
-                  </p>
-                </div>
-              ) : null}
-            </div>
-          </div>
-          <div className="pb-8">
-            <label className="block mt-4 font-medium text-gray-700 text-1xl">
-              The Outcome & Results
-            </label>
-            <div className="mt-1">
-              <textarea
-                type="text"
-                name="results"
-                values={outcome}
-                value={outcome}
-                onChange={(e) => setOutcome(e.target.value)}
-                className="block w-full px-4 py-2 border rounded-md sm:text-sm focus:outline-none focus:ring-gray-900 focus:border-blue-600"
-                rows={10}
-              />
-              {outcomeError ? (
-                <div className="flex">
-                  <ExclamationCircleIcon className="w-5 h-5 mt-4 mr-1 text-red-500" />
-
-                  <p className="mt-4 text-sm text-red-600" id="email-error">
-                    {outcomeError}
-                  </p>
-                </div>
-              ) : null}
+              <span className="flex items-center">
+                <h3 className="text-2xl font-bold leading-6 opacity-40 text-zinc-700">
+                  KPIs
+                </h3>
+                <span className=" ml-1 px-1 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-800">
+                  Coming Soon
+                </span>
+              </span>
+              <p className="max-w-2xl mt-1 text-sm text-gray-500 opacity-40">
+                Add Your Own Job Specific KPIs For Your Industry
+              </p>
             </div>
           </div>
         </div>
+
         <div className="pt-5">
-          <div className="flex items-center justify-end">
+          <div className="flex items-center justify-end space-x-2">
             {error ? (
               <>
-                <h2
-                  onClick={handlePublish}
-                  className="mr-2 text-sm text-red-600"
-                >
-                  Not so fast, fix those errors first.
+                <h2 className="text-sm text-red-600">
+                  Woah...Not So Fast, Fix Those Errors First
                 </h2>
-                <ExclamationCircleIcon className="w-5 h-5 mr-4 text-red-500" />
+                <ExclamationCircleIcon className="w-5 h-5 text-red-500" />
               </>
             ) : null}
-            <div className="flex items-center justify-end gap-4">
-              <button
-                onClick={closeEditModal}
-                className="flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
-              >
-                Cancel
-              </button>
-              {loading ? (
-                <button
-                  onClick={handlePublish}
-                  className="flex items-center px-5 py-2 text-sm font-medium text-left text-gray-700 text-gray-900 bg-white border border-b-4 border-r-4 border-gray-900 rounded-md shadow-sm hover:bg-gray-50"
-                >
-                  Loading
-                </button>
-              ) : (
-                <button
-                  onClick={handlePublish}
-                  className="flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
-                >
-                  Edit
-                </button>
-              )}
-            </div>
+            <button
+              onClick={closeEditModal}
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handlePublish}
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none "
+            >
+              Save
+            </button>
           </div>
         </div>
       </div>

@@ -25,9 +25,9 @@ export default function False() {
                   S
                 </h1>
                 <h1 className="text-2xl font-extrabold text-zinc-900">esame</h1>
-                <span className=" ml-1 px-1 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-800">
+                {/*}  <span className=" ml-1 px-1 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-800">
                   beta
-                </span>
+                  </span>*/}
               </span>
             </Link>
           </div>

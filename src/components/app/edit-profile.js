@@ -63,7 +63,7 @@ export function EditProfile({ user, closeProfileEditModal }) {
           <h1 className="text-4xl font-bold">Edit Profile</h1>
         </div>
 
-        <div className="">
+        <div>
           <div className="pb-8">
             <label className="block mt-4 font-medium text-gray-700 text-1xl">
               Display Name
@@ -71,13 +71,13 @@ export function EditProfile({ user, closeProfileEditModal }) {
             <div className="mt-1">
               <input
                 type="text"
-                name="displayName"
                 values={displayName}
                 value={displayName}
                 autofocus={false}
                 onChange={(e) => setDisplayName(e.target.value)}
-                className="block w-full px-4 py-2 border rounded-md sm:text-sm focus:outline-none focus:ring-gray-900 focus:border-blue-600"
+                className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 sm:max-w-xs sm:text-sm"
               />
+
               {displayNameError ? (
                 <div className="flex">
                   <ExclamationCircleIcon className="w-5 h-5 mt-4 mr-1 text-red-500" />
@@ -96,11 +96,10 @@ export function EditProfile({ user, closeProfileEditModal }) {
             <div className="mt-1">
               <input
                 type="text"
-                name="service"
                 values={type}
                 value={type}
                 onChange={(e) => setType(e.target.value)}
-                className="block w-full px-4 py-2 border rounded-md sm:text-sm focus:outline-none focus:ring-gray-900 focus:border-blue-600"
+                className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 sm:max-w-xs sm:text-sm"
               />
               {typeError ? (
                 <div className="flex">

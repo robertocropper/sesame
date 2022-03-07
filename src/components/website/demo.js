@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Dialog, Transition, Switch } from "@headlessui/react";
+import { Dialog, Transition, Switch, Disclosure } from "@headlessui/react";
 import { ChevronUpIcon, XIcon } from "@heroicons/react/solid";
 import axios from "axios";
 
@@ -9,67 +9,90 @@ function classNames(...classes) {
 
 const projects = [
   {
-    // Architect
     pid: "1",
     clientObjective: "Lengthen Ground Floor with Open Plan Extension",
-    objectiveOption: "Yes",
     service: "Floorplan & Design",
-    niche: "Modern Brick",
-    duration: 2,
-    unitOption: "mo",
-    to_char: "February 10th 2022",
-    cost: "20,000.00",
-    currencyOption: "GBP",
-    specifications:
+    keyInfo: "Modern Brick",
+    description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    process:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    outcome:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    type: "Architect",
+    status: "Ongoing",
+    duration: "6",
+    durationUnit: "w",
+    costAmount: 20000,
+    costCurrency: "GBP",
+    dateCompleted: null,
+    clientName: "",
+    clientIndustry: "",
+    clientNiche: "",
+    clientWords: "",
     filenames: ["architect"],
+    type: "Architect",
   },
+  //Media buyer
   {
-    // Media buyer
     pid: "2",
     clientObjective: "Scale FB Ads to £20k PM Ad Spend",
-    objectiveOption: "Yes",
     service: "Managing & Scaling Ads",
-    niche: "2 CBOs, 17 Ad Sets",
-    duration: 4,
-    unitOption: "w",
-    to_char: "January 7th 2022",
-    cost: "2,700",
-    currencyOption: "USD",
-    specifications: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    process:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    outcome:
+    keyInfo: "2 Ad Campaigns",
+    description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    type: "Ad Agency",
+    status: "Completed",
+    duration: "7",
+    durationUnit: "mo",
+    costAmount: 100000,
+    costCurrency: "USD",
+    dateCompleted: "February 10th 2022",
+    clientName: "",
+    clientIndustry: "",
+    clientNiche: "",
+    clientWords: "",
     filenames: [],
+    type: "Media buyer",
   },
   {
-    // Private Chef
     pid: "3",
     clientObjective: "Cater to 12 at Private Home Dinner",
-    objectiveOption: "Yes",
     service: "Catering",
-    niche: "Seafood & Red Meat",
-    duration: 2,
-    unitOption: "mo",
-    to_char: "January 2nd 2022",
-    cost: "20,000.00",
-    currencyOption: "GBP",
-    specifications:
+    keyInfo: "Seafood & Red Meat",
+
+    description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    process:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-    outcome:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    type: "Chef",
+    status: "Completed",
+    duration: "12",
+    durationUnit: "hr",
+    costAmount: 1200,
+    costCurrency: "USD",
+    dateCompleted: "January 2nd 2022",
+    clientName: "",
+    clientIndustry: "",
+    clientNiche: "",
+    clientWords: "",
     filenames: ["chef"],
+    type: "Chef",
   },
+  {
+    pid: "4",
+    clientObjective: "Relieve Social Anxiety",
+    service: "CBT",
+    keyInfo: "Adolescent",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    status: "Completed",
+    duration: "18",
+    durationUnit: "mo",
+    costAmount: 7000,
+    costCurrency: "EUR",
+    dateCompleted: "January 7th 2022",
+    clientName: "",
+    clientIndustry: "",
+    clientNiche: "",
+    clientWords: "",
+    filenames: [],
+    type: "Psychologist",
+  },
+
+  /*
+  
   {
     // Psychologist
     pid: "4",
@@ -132,13 +155,13 @@ const projects = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     type: "Interior Designer",
     filenames: ["interior"],
-  },
+  },*/
 ];
 
 export function Demo() {
   const [projectIsOpen, setProjectIsOpen] = useState(false);
   const [id, setId] = useState("");
-  const [enabled, setEnabled] = useState(false);
+  const [enabled, setEnabled] = useState(true);
   const [filteredProjects, setFilteredProjects] = useState(projects);
   const [imageLength, setImageLength] = useState();
 
@@ -191,12 +214,11 @@ export function Demo() {
               >
                 &#8203;
               </span>
-
               <div
                 className={
                   imageLength >= 1
-                    ? "fixed relative inline-block w-full md:w-2/4 m-4 text-left align-middle transition-all transform bg-white border rounded-sm shadow-xl"
-                    : "fixed relative inline-block w-full md:w-1/3 m-4 text-left align-middle transition-all transform bg-white border rounded-sm shadow-xl"
+                    ? "fixed relative inline-block w-full md:w-3/5 m-4 text-left align-middle transition-all transform bg-white border rounded-sm shadow-xl"
+                    : "fixed relative inline-block w-full md:w-2/5 m-4 text-left align-middle transition-all transform bg-white border rounded-sm shadow-xl"
                 }
               >
                 <div className="border-b divide-y">
@@ -208,7 +230,7 @@ export function Demo() {
                       <div className="relative flex justify-end text-left">
                         <button
                           onClick={closeProjectModal}
-                          className="flex items-center justify-start px-4 py-2 hover:bg-gray-100"
+                          className="flex items-center justify-start px-4 py-2 border-none focus:ring-0 hover:bg-gray-100"
                         >
                           <XIcon className="w-6 h-5 text-gray-700" />
                         </button>
@@ -216,110 +238,182 @@ export function Demo() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center px-6 py-10 border-b">
-                  <h3 className="text-4xl font-bold text-zinc-700">
-                    {id.clientObjective}
-                  </h3>
+                <div className="col-span-2 ">
+                  <div className="flex items-center px-6 py-10 border-b">
+                    <h3 className="text-4xl font-bold text-zinc-700">
+                      {id.clientObjective}
+                    </h3>
+                    <span className="ml-4 px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
+                      {id.status}
+                    </span>
+                  </div>
                 </div>
                 <div
                   className={
-                    imageLength >= 1
-                      ? "md:grid grid-cols-2 divide-x "
-                      : "grid grid-cols-1"
+                    imageLength >= 1 ? "grid grid-cols-2" : "grid grid-cols-1"
                   }
                 >
                   <div className="px-6 py-4 overflow-y-auto border-b divide-y max-h-96">
                     <div className="py-4 ">
-                      <dt className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                        Job Specifications
-                      </dt>
-                      <h3 className="text-xl font-light text-zinc-700">
-                        {id.specifications}
-                      </h3>
-                    </div>
-                    <div className="py-4 ">
-                      <dt className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                        Process & Approach to Job
-                      </dt>
-                      <h3 className="text-xl font-light text-zinc-700">
-                        {id.process}
-                      </h3>
-                    </div>
-                    <div className="py-4 ">
-                      <dt className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                        Outcome & Results
-                      </dt>
-                      <h3 className="text-xl font-light text-zinc-700">
-                        {id.outcome}
-                      </h3>
-                    </div>
-                  </div>
-                  <div>
-                    {imageLength >= 1 ? (
-                      <div className="grid grid-flow-col grid-rows-1 px-6 mt-4 overflow-x-auto max-h-76">
-                        <img
-                          src={`https://sesame-d9wj8.ondigitalocean.app/assets/demo/${id.filenames[0]}`}
-                          className="object-scale-down rounded-sm max-w-72 max-h-72"
-                        />
-                      </div>
-                    ) : null}
-                    <div className="grid grid-cols-2 px-6 py-4 overflow-y-auto ">
-                      <div className="py-4">
-                        <dt className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                          Service
-                        </dt>
+                      <Disclosure>
+                        {({ open }) => (
+                          <>
+                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left rounded-lg text-zinc-600 focus:outline-none focus-visible:ring">
+                              <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                Description of Job
+                              </p>
 
+                              <ChevronUpIcon
+                                className={`${
+                                  open ? "transform rotate-180" : ""
+                                } w-5 h-5 text-zinc-500`}
+                              />
+                            </Disclosure.Button>
+                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-gray-500 text-md">
+                              {id.description}
+                            </Disclosure.Panel>
+                          </>
+                        )}
+                      </Disclosure>
+                      {/*
+                        <Disclosure>
+                          {({ open }) => (
+                            <>
+                              <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left rounded-lg text-zinc-600 focus:outline-none focus-visible:ring">
+                                <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                  The Job Specifications
+                                </p>
+
+                                <ChevronUpIcon
+                                  className={`${
+                                    open ? "transform rotate-180" : ""
+                                  } w-5 h-5 text-zinc-500`}
+                                />
+                              </Disclosure.Button>
+                              <Disclosure.Panel className="px-4 pt-4 pb-2 text-gray-500 text-md">
+                                If you're unhappy with your purchase for any
+                                reason, email us within 90 days and we'll refund
+                                you in full, no questions asked.
+                              </Disclosure.Panel>
+                            </>
+                          )}
+                        </Disclosure>
+                      </div>
+                      <div className="py-4 ">
+                        <Disclosure>
+                          {({ open }) => (
+                            <>
+                              <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left rounded-lg text-zinc-600 focus:outline-none focus-visible:ring">
+                                <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                  Approach
+                                </p>
+
+                                <ChevronUpIcon
+                                  className={`${
+                                    open ? "transform rotate-180" : ""
+                                  } w-5 h-5 text-zinc-500`}
+                                />
+                              </Disclosure.Button>
+                              <Disclosure.Panel className="px-4 pt-4 pb-2 text-gray-500 text-md">
+                                If you're unhappy with your purchase for any
+                                reason, email us within 90 days and we'll refund
+                                you in full, no questions asked.
+                              </Disclosure.Panel>
+                            </>
+                          )}
+                        </Disclosure>
+                      </div>
+
+                      <div className="py-4 ">
+                        <Disclosure>
+                          {({ open }) => (
+                            <>
+                              <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left rounded-lg text-zinc-600 focus:outline-none focus-visible:ring">
+                                <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                  Outcome & Results
+                                </p>
+
+                                <ChevronUpIcon
+                                  className={`${
+                                    open ? "transform rotate-180" : ""
+                                  } w-5 h-5 text-zinc-500`}
+                                />
+                              </Disclosure.Button>
+                              <Disclosure.Panel className="px-4 pt-4 pb-2 text-gray-500 text-md">
+                                If you're unhappy with your purchase for any
+                                reason, email us within 90 days and we'll refund
+                                you in full, no questions asked.
+                              </Disclosure.Panel>
+                            </>
+                          )}
+                        </Disclosure>
+                                */}
+                    </div>
+                    <div className="px-6 py-4 text-right border-b divide-y">
+                      <div className="py-4 ">
+                        <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                          Service
+                        </p>
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
                           {id.service}
                         </span>
                       </div>
                       <div className="py-4 ">
-                        <dt className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                          Niched Info
-                        </dt>
+                        <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                          Key Info
+                        </p>
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
-                          {id.niche}
+                          {id.keyInfo}
                         </span>
                       </div>
                       <div className="py-4 ">
-                        <dt className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                          Job Completed On
-                        </dt>
-
+                        <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                          Cost
+                        </p>
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
-                          {id.to_char}
+                          {id.costAmount} {id.costCurrency}
                         </span>
                       </div>
                       <div className="py-4 ">
-                        <dt className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                        <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                           Duration
-                        </dt>
+                        </p>
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
                           {id.duration}
-                          {id.unitOption}
+                          {id.durationUnit}
                         </span>
                       </div>
-
-                      <div className="py-4 ">
-                        <dt className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                          Cost
-                        </dt>
-
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
-                          {id.cost} {id.currencyOption}
-                        </span>
-                      </div>
-                      <div className="py-4 ">
-                        <dt className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                          Objective Completed
-                        </dt>
-
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
-                          {id.objectiveOption}
-                        </span>
-                      </div>
+                      {id.dateCompleted ? (
+                        <div className="py-4 ">
+                          <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                            Date Completed
+                          </p>
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
+                            {id.dateCompleted}
+                          </span>
+                        </div>
+                      ) : null}
+                      {id.clientNiche ? (
+                        <div className="py-4 ">
+                          <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                            Client Niche
+                          </p>
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
+                            {id.clientNiche}
+                          </span>
+                        </div>
+                      ) : null}
                     </div>
                   </div>
+
+                  {imageLength >= 1 ? (
+                    <div className="fixed relative self-center p-10 mx-auto align-middle">
+                      <img
+                        src={`http://localhost:3000/assets/demo/${id.filenames}`}
+                        className="rounded-sm"
+                      />
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -429,7 +523,7 @@ export function Demo() {
                             scope="col"
                             className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
                           >
-                            Completed On
+                            Stands
                           </th>
                           <th
                             scope="col"
@@ -461,7 +555,7 @@ export function Demo() {
                             scope="col"
                             className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
                           >
-                            Completed On
+                            Stands
                           </th>
                           <th
                             scope="col"
@@ -478,22 +572,19 @@ export function Demo() {
                       {filteredProjects.map((project) => (
                         <tr key={project.pid}>
                           {enabled && project.filenames.length >= 1 ? (
-                            <>
-                              <div className="overflow-hidden h-fit w-72">
-                                <img
-                                  src={`https://sesame-d9wj8.ondigitalocean.app/assets/demo/${project.filenames[0]}`}
-                                />
-                              </div>
-                            </>
+                            <div className="overflow-hidden h-fit w-72">
+                              <img
+                                src={`http://localhost:3000/assets/demo/${project.filenames[0]}`}
+                              />
+                            </div>
                           ) : null}
-                          {enabled && imageLength >= 1 ? (
+                          {enabled && project.filenames.length >= 1 ? (
                             <td className="px-6 py-4 min-h-96">
                               <>
                                 <t className="font-medium text-gray-900 break-normal max-w-24 text-md">
                                   {project.clientObjective}
                                 </t>
-
-                                <span className="px-2 py-1 ml-2 text-xs uppercase border rounded-full text-zinc-400">
+                                <span className="p-1 ml-2 text-xs text-sm uppercase border rounded-full text-zinc-400">
                                   {project.type}
                                 </span>
                               </>
@@ -504,8 +595,7 @@ export function Demo() {
                                 <t className="font-medium text-gray-900 break-normal max-w-24 text-md">
                                   {project.clientObjective}
                                 </t>
-
-                                <span className="px-2 py-1 ml-2 text-xs uppercase border rounded-full text-zinc-400">
+                                <span className="p-1 ml-2 text-xs text-sm uppercase border rounded-full text-zinc-400">
                                   {project.type}
                                 </span>
                               </>
@@ -518,13 +608,23 @@ export function Demo() {
                             </p>
                             <t className="text-gray-500 text-md">
                               {project.duration}
-                              {project.unitOption}
+                              {project.durationUnit}
                             </t>
                           </td>
+                          {project.status === "Completed" ? (
+                            <td className="px-6 py-4 ">
+                              <span className="p-1 text-sm font-medium text-green-800 bg-green-100 rounded-md">
+                                {project.status}
+                              </span>
+                            </td>
+                          ) : (
+                            <td className="px-6 py-4 ">
+                              <span className="p-1 text-sm font-medium text-yellow-800 bg-yellow-100 rounded-md">
+                                {project.status}
+                              </span>
+                            </td>
+                          )}
 
-                          <td className="px-6 py-4 text-gray-500 text-md">
-                            {project.to_char}
-                          </td>
                           <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                             <button
                               onClick={() => {

@@ -1,6 +1,81 @@
 const pool = require("../../database");
 
 async function createProject(req, res) {
+  var {
+    clientObjective,
+    service,
+    keyInfo,
+    description,
+    status,
+    duration,
+    durationUnit,
+    costAmount,
+    costCurrency,
+    dateCompleted,
+    clientName,
+    clientIndustry,
+    clientNiche,
+    clientWords,
+  } = req.body;
+  if (dateCompleted === "") {
+    var dateCompleted = null;
+  }
+  const filenames = req.files.map(({ filename }) => filename);
+  try {
+    const createdProject = await pool.query(
+      `INSERT INTO PROJECTS 
+      (uid, 
+        clientObjective,
+        service,
+        keyInfo,
+        description,
+        status,
+        duration,
+        durationUnit,
+        costAmount,
+        costCurrency,
+        dateCompleted,
+        clientName,
+        clientIndustry,
+        clientNiche,
+        clientWords,
+      filenames,
+      category, 
+      tags, 
+      kpi, 
+      published, 
+      private) 
+      VALUES 
+      ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, null, null, null, True, False) RETURNING *`,
+      [
+        req.user,
+        clientObjective,
+        service,
+        keyInfo,
+        description,
+        status,
+        duration,
+        durationUnit,
+        costAmount,
+        costCurrency,
+        dateCompleted,
+        clientName,
+        clientIndustry,
+        clientNiche,
+        clientWords,
+        filenames,
+      ]
+    );
+    res.status(200);
+    res.json({ project: createdProject.rows[0] });
+  } catch (err) {
+    res.status(500);
+    console.log(err);
+  }
+}
+
+/*
+async function createProject(req, res) {
   console.log(req.files);
   const {
     clientObjective,
@@ -65,5 +140,6 @@ async function createProject(req, res) {
     console.log(err);
   }
 }
+*/
 
 module.exports = { createProject };

@@ -59,7 +59,7 @@ export function Login() {
   };
 
   return (
-    <div className="h-screen max-w-4xl mx-auto mt-32 sm:px-6 lg:px-8">
+    <div className="max-w-4xl min-h-screen mx-auto mt-20 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="text-3xl font-extrabold text-center text-gray-900">
           Login
@@ -82,7 +82,7 @@ export function Login() {
                   required
                   values={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full px-4 py-2 border rounded-md sm:text-sm focus:outline-none focus:ring-gray-900 focus:border-blue-600"
+                  className="block w-full px-4 py-2 mx-auto border-gray-300 rounded-md shadow-sm sm:text-sm focus:ring-blue-600 focus:border-blue-600 sm:max-w-xs"
                 />
                 {emailError ? (
                   <div className="flex">
@@ -107,7 +107,7 @@ export function Login() {
                   required
                   values={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full px-4 py-2 border rounded-md sm:text-sm focus:outline-none focus:ring-gray-900 focus:border-blue-600"
+                  className="block w-full px-4 py-2 mx-auto border-gray-300 rounded-md shadow-sm sm:text-sm focus:ring-blue-600 focus:border-blue-600 sm:max-w-xs"
                 />
                 {passwordError ? (
                   <div className="flex">

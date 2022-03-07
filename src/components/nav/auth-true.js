@@ -2,8 +2,13 @@ import React, { useContext, useState, Fragment } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router";
-import { ChevronDownIcon, MenuIcon, XIcon } from "@heroicons/react/solid";
-import { Menu, Popover, Dialog, Transition } from "@headlessui/react";
+import {
+  ChevronDownIcon,
+  MenuIcon,
+  XIcon,
+  CheckIcon,
+} from "@heroicons/react/solid";
+import { Menu, Popover, Dialog, Transition, Switch } from "@headlessui/react";
 
 import { Link } from "react-router-dom";
 import { UserContext } from "../../App";
@@ -17,8 +22,10 @@ export default function True() {
   const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
   const { uid } = useParams();
+  const [enabled, setEnabled] = useState(true);
 
   let [isOpen, setIsOpen] = useState(false);
+  let [pricingIsOpen, setPricingIsOpen] = useState(false);
 
   function closeModal() {
     setIsOpen(false);
@@ -28,6 +35,13 @@ export default function True() {
     setIsOpen(true);
   }
 
+  function closePricingModal() {
+    setPricingIsOpen(false);
+  }
+
+  function openPricingModal() {
+    setPricingIsOpen(true);
+  }
 
   async function handleLogout() {
     try {
@@ -45,7 +59,6 @@ export default function True() {
 
   return (
     <Popover>
-    
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -82,6 +95,250 @@ export default function True() {
           </div>
         </Dialog>
       </Transition>
+      <Transition appear show={pricingIsOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="fixed inset-0 z-10 overflow-y-auto"
+          onClose={closePricingModal}
+        >
+          <div className="max-h-screen px-4 text-left">
+            <Dialog.Overlay className="fixed inset-0 bg-black opacity-10" />
+            <div className="fixed relative w-full max-w-xl p-6 mx-auto mt-40">
+              {enabled === false ? (
+                <div className="fixed relative flex flex-col w-full max-w-xl p-8 align-middle bg-white rounded-md shadow-2xl">
+                  <div className="flex-1">
+                    <h3 className="text-xl font-semibold text-zinc-900">
+                      A Professional's Plan
+                    </h3>
+                    <p className="absolute top-0 py-1.5 px-4 bg-blue-600 rounded-full text-xs font-semibold uppercase tracking-wide text-white transform -translate-y-1/2">
+                      Most popular
+                    </p>
+                    <p className="flex items-baseline mt-4 text-zinc-900">
+                      <span className="text-5xl font-extrabold tracking-tight">
+                        $24
+                      </span>
+                      <span className="ml-1 text-xl font-semibold">/month</span>
+                      <Switch.Group
+                        as="div"
+                        className="flex items-center mt-2 ml-4"
+                      >
+                        <Switch
+                          checked={enabled}
+                          onChange={setEnabled}
+                          className={classNames(
+                            enabled ? "bg-blue-600" : "bg-gray-200",
+                            "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none"
+                          )}
+                        >
+                          <span
+                            aria-hidden="true"
+                            className={classNames(
+                              enabled ? "translate-x-5" : "translate-x-0",
+                              "pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
+                            )}
+                          />
+                        </Switch>
+                        <Switch.Label as="span" className="ml-3">
+                          <span className="text-sm font-medium text-gray-900">
+                            Annual billing
+                          </span>
+                          <span className="text-sm text-zinc-500">
+                            {" "}
+                            (30% OFF)
+                          </span>
+                        </Switch.Label>
+                      </Switch.Group>
+                    </p>
+
+                    <ul role="list" className="mt-6 space-y-6">
+                      <div className="flex">
+                        <CheckIcon
+                          className="flex-shrink-0 w-6 h-6 text-blue-600"
+                          aria-hidden="true"
+                        />
+                        <span className="ml-3 text-zinc-500">
+                          Unlimited Case Studies
+                        </span>
+                      </div>
+                      {/*
+                <div className="flex">
+                  <CheckIcon
+                    className="flex-shrink-0 w-6 h-6 text-blue-600"
+                    aria-hidden="true"
+                  />
+                  <span className="ml-3 text-gray-500">
+                    Discoverable via Search Bar
+                  </span>
+                </div>
+                <div className="flex">
+                  <CheckIcon
+                    className="flex-shrink-0 w-6 h-6 text-blue-600"
+                    aria-hidden="true"
+                  />
+                  <span className="ml-3 text-gray-500">
+                    Uploading Photos & Files
+                  </span>
+                </div>
+                <div className="flex">
+                  <CheckIcon
+                    className="flex-shrink-0 w-6 h-6 text-blue-600"
+                    aria-hidden="true"
+                  />
+                  <span className="ml-3 text-gray-500">
+                    Add Case Study Specific Metrics & KPIs
+                  </span>
+                </div>
+                */}
+                    </ul>
+                  </div>
+                  {user ? (
+                    <form
+                      action="/api/stripe/create-checkout-session"
+                      method="POST"
+                    >
+                      <input type="hidden" name="lookup_key" value="monthly" />
+                      <button
+                        type="submit"
+                        className="block w-full px-6 py-3 mt-8 text-sm font-medium text-center bg-white border border-gray-300 rounded-md shadow-sm text-zinc-900 hover:bg-gray-50"
+                      >
+                        Pay Monthly
+                      </button>
+                    </form>
+                  ) : (
+                    <div className="grid grid-cols-2 gap-4">
+                      <Link to="/signup">
+                        <button className="block w-full px-6 py-3 mt-8 text-sm font-medium text-center bg-white border border-gray-300 rounded-md shadow-sm text-zinc-900 hover:bg-gray-50">
+                          Signup
+                        </button>
+                      </Link>
+                      <Link to="/login">
+                        <button className="block w-full px-6 py-3 mt-8 text-sm font-medium text-center bg-white border border-gray-300 rounded-md shadow-sm text-zinc-900 hover:bg-gray-50">
+                          Login
+                        </button>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="fixed relative flex flex-col w-full max-w-xl p-8 align-middle bg-white rounded-md shadow-2xl">
+                  <div className="flex-1">
+                    <h3 className="text-xl font-semibold text-zinc-900">
+                      A Professional's Plan
+                    </h3>
+                    <p className="absolute top-0 py-1.5 px-4 bg-blue-600 rounded-full text-xs font-semibold uppercase tracking-wide text-white transform -translate-y-1/2">
+                      Most popular
+                    </p>
+                    <div className="flex items-baseline mt-4 text-zinc-900">
+                      <span className="text-5xl font-extrabold tracking-tight">
+                        $16
+                      </span>
+                      <span className="ml-1 text-xl font-semibold">/month</span>
+                      <Switch.Group
+                        as="div"
+                        className="flex items-center mt-2 ml-4"
+                      >
+                        <Switch
+                          checked={enabled}
+                          onChange={setEnabled}
+                          className={classNames(
+                            enabled ? "bg-blue-600" : "bg-gray-200",
+                            "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none"
+                          )}
+                        >
+                          <span
+                            aria-hidden="true"
+                            className={classNames(
+                              enabled ? "translate-x-5" : "translate-x-0",
+                              "pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
+                            )}
+                          />
+                        </Switch>
+                        <Switch.Label as="span" className="ml-3">
+                          <span className="text-sm font-medium text-gray-900">
+                            Annual billing
+                          </span>
+                          <span className="text-sm text-zinc-500">
+                            {" "}
+                            (30% OFF)
+                          </span>
+                        </Switch.Label>
+                      </Switch.Group>
+                    </div>
+                    <ul role="list" className="mt-6 space-y-6">
+                      <div className="flex">
+                        <CheckIcon
+                          className="flex-shrink-0 w-6 h-6 text-blue-600"
+                          aria-hidden="true"
+                        />
+                        <span className="ml-3 text-zinc-500">
+                          Unlimited Case Studies
+                        </span>
+                      </div>
+                      {/*
+                <div className="flex">
+                  <CheckIcon
+                    className="flex-shrink-0 w-6 h-6 text-blue-600"
+                    aria-hidden="true"
+                  />
+                  <span className="ml-3 text-gray-500">
+                    Discoverable via Search Bar
+                  </span>
+                </div>
+                <div className="flex">
+                  <CheckIcon
+                    className="flex-shrink-0 w-6 h-6 text-blue-600"
+                    aria-hidden="true"
+                  />
+                  <span className="ml-3 text-gray-500">
+                    Uploading Photos & Files
+                  </span>
+                </div>
+                <div className="flex">
+                  <CheckIcon
+                    className="flex-shrink-0 w-6 h-6 text-blue-600"
+                    aria-hidden="true"
+                  />
+                  <span className="ml-3 text-gray-500">
+                    Add Case Study Specific Metrics & KPIs
+                  </span>
+                </div>
+                */}
+                    </ul>
+                  </div>
+                  {user ? (
+                    <form
+                      action="/api/stripe/create-checkout-session"
+                      method="POST"
+                    >
+                      <input type="hidden" name="lookup_key" value="annually" />
+                      <button
+                        id="checkout-and-portal-button"
+                        type="submit"
+                        className="block w-full px-6 py-3 mt-8 text-sm font-medium text-center bg-white border border-gray-300 rounded-md shadow-sm text-zinc-900 hover:bg-gray-50"
+                      >
+                        Pay Annually
+                      </button>
+                    </form>
+                  ) : (
+                    <div className="grid grid-cols-2 gap-4">
+                      <Link to="/signup">
+                        <button className="block w-full px-6 py-3 mt-8 text-sm font-medium text-center bg-white border border-gray-300 rounded-md shadow-sm text-zinc-900 hover:bg-gray-50">
+                          Signup
+                        </button>
+                      </Link>
+                      <Link to="/login">
+                        <button className="block w-full px-6 py-3 mt-8 text-sm font-medium text-center bg-white border border-gray-300 rounded-md shadow-sm text-zinc-900 hover:bg-gray-50">
+                          Login
+                        </button>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
       <div className="w-full bg-white border-b ">
         <div className="flex items-center justify-between h-16 px-6 py-6 mx-auto shadow-sm md:justify-start md:space-x-10">
           <div className="flex items-end justify-start lg:w-0 lg:flex-1">
@@ -91,9 +348,9 @@ export default function True() {
                   S
                 </h1>
                 <h1 className="text-2xl font-extrabold text-zinc-900">esame</h1>
-                <span className=" ml-1 px-1 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-800">
+                {/*}  <span className=" ml-1 px-1 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-800">
                   beta
-                </span>
+                  </span>*/}
               </span>
             </Link>
           </div>
@@ -141,15 +398,14 @@ export default function True() {
                       {user.displayname}
                     </p>
 
-                    {/*
                     {user.status !== "active" ? (
                       <span>
-                        <Link
-                          to="/pricing"
+                        <button
+                          onClick={openPricingModal}
                           className="text-sm font-medium text-blue-600 hover:underline"
                         >
                           Upgrade Plan
-                        </Link>
+                        </button>
                       </span>
                     ) : user.plan !== null ? (
                       <span>
@@ -158,7 +414,6 @@ export default function True() {
                         </t>
                       </span>
                     ) : null}
-                    */}
                   </div>
                   <div className="py-1">
                     {user.status === "active" ? (

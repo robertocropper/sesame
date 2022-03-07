@@ -18,23 +18,28 @@ const aws = require("aws-sdk");
 const spacesEndpoint = new aws.Endpoint("nyc3.digitaloceanspaces.com");
 const s3 = new aws.S3({
   endpoint: spacesEndpoint,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
 let storage;
 
 // Prod File Storage
 
-if (process.env.NODE_ENV === "production") {
-  storage = multerS3({
-    s3: s3,
-    bucket: process.env.STORAGE,
-    acl: "public-read",
-    key: function (req, file, cb) {
-      console.log(file);
-      cb(null, file.originalname);
-    },
-  });
-}
+//if (process.env.NODE_ENV === "production") {
+/*
+storage = multerS3({
+  s3: s3,
+  bucket: process.env.STORAGE,
+  acl: "public-read",
+  key: function (req, file, cb) {
+    console.log(file);
+    console.log(s3);
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix);
+  },
+});
+//}*/
 
 // Dev File Storage
 
@@ -68,7 +73,7 @@ router.post(
   createProject
 );
 
-router.put("/:pid/edit", Auth, editProject);
+router.put("/:pid/edit", upload.array("selectedFile", 2), Auth, editProject);
 
 router.delete("/:uid/:pid/delete", Auth, DeleteProject);
 

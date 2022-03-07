@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 import { Link } from "react-router-dom";
 
 export function Footer() {
   return (
-    <footer className="mt-10 border-t">
+    <footer className="mt-5 border-t">
       <div className="p-4 mx-auto md:max-w-5xl ">
         <div className="py-10 md:flex md:items-center md:justify-between ">
           <div className="flex gap-4 mt-8 md:mt-0 md:order-1">

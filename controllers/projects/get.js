@@ -19,6 +19,22 @@ async function getUserProjects(req, res) {
   const uid = req.params.uid;
   try {
     const projects = await pool.query(
+      `SELECT pid, clientObjective, service, keyInfo, description, status, duration, durationUnit, costAmount, costCurrency, TO_CHAR(projects.dateCompleted, 'Month d, yyyy'), clientName, clientIndustry, clientNiche, clientWords, filenames FROM PROJECTS WHERE uid = $1 ORDER BY dateCompleted DESC NULLS FIRST`,
+      [uid]
+    );
+    res.json({ projects: projects.rows });
+    res.status(200);
+  } catch (error) {
+    console.log(error);
+
+    res.status(500);
+  }
+}
+/*
+async function getUserProjects(req, res) {
+  const uid = req.params.uid;
+  try {
+    const projects = await pool.query(
       `SELECT pid, clientObjective, objectiveOption, service, niche, duration, unitOption, TO_CHAR(projects.dateCompleted, 'Month d, yyyy'), cost, currencyOption, specifications, process, outcome, filenames FROM PROJECTS WHERE uid = $1 ORDER BY dateCompleted DESC`,
       [uid]
     );
@@ -27,7 +43,7 @@ async function getUserProjects(req, res) {
   } catch {
     res.status(500).send("No projects");
   }
-}
+}*/
 
 async function getUserProfile(req, res) {
   const uid = req.params.uid;
@@ -38,8 +54,9 @@ async function getUserProfile(req, res) {
     );
     res.json({ user: user.rows });
     res.status(200);
-  } catch {
-    res.status(500).send("No projects");
+  } catch (error) {
+    console.log(error);
+    res.status(500);
   }
 }
 
@@ -48,13 +65,14 @@ async function getUserProject(req, res) {
   const pid = req.params.pid;
   try {
     const project = await pool.query(
-      `SELECT users.uid, users.displayName, projects.pid, projects.clientObjective, projects.objectiveOption, projects.service, projects.niche,  projects.duration, projects.unitOption, TO_CHAR(projects.dateCompleted, 'Month dd yyyy'), projects.cost, projects.currencyOption, projects.specifications, projects.process, projects.outcome FROM users LEFT JOIN projects ON users.uid = projects.uid WHERE users.uid = $1 AND projects.pid = $2`,
+      `SELECT * FROM PROJECTS WHERE uid = $1 AND pid = $2`,
       [uid, pid]
     );
     res.json({ project: project.rows });
     res.status(200);
   } catch (error) {
-    res.status(500).send({ error: "Project doesn't exist" });
+    console.log(error);
+    res.status(500);
   }
 }
 
