@@ -26,20 +26,19 @@ let storage;
 
 // Prod File Storage
 
-//if (process.env.NODE_ENV === "production") {
-/*
-storage = multerS3({
-  s3: s3,
-  bucket: process.env.STORAGE,
-  acl: "public-read",
-  key: function (req, file, cb) {
-    console.log(file);
-    console.log(s3);
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix);
-  },
-});
-//}*/
+if (process.env.NODE_ENV === "production") {
+  storage = multerS3({
+    s3: s3,
+    bucket: process.env.STORAGE,
+    acl: "public-read",
+    key: function (req, file, cb) {
+      console.log(file);
+      console.log(s3);
+      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+      cb(null, uniqueSuffix);
+    },
+  });
+}
 
 // Dev File Storage
 
