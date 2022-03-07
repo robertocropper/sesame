@@ -574,7 +574,7 @@ export function Demo() {
                           {enabled && project.filenames.length >= 1 ? (
                             <div className="overflow-hidden h-fit w-72">
                               <img
-                                src={`https://sesame.casa/assets/demo/${id.filenames[0]}`}
+                                src={`https://sesame.casa/assets/demo/${project.filenames[0]}`}
                               />
                             </div>
                           ) : null}
