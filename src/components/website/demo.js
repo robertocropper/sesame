@@ -409,7 +409,7 @@ export function Demo() {
                   {imageLength >= 1 ? (
                     <div className="fixed relative self-center p-10 mx-auto align-middle">
                       <img
-                        src={`http://localhost:3000/assets/demo/${id.filenames}`}
+                        src={`${APP_URL}/assets/demo/${id.filenames}`}
                         className="rounded-sm"
                       />
                     </div>
@@ -574,7 +574,7 @@ export function Demo() {
                           {enabled && project.filenames.length >= 1 ? (
                             <div className="overflow-hidden h-fit w-72">
                               <img
-                                src={`http://localhost:3000/assets/demo/${project.filenames[0]}`}
+                                src={`${APP_URL}/assets/demo/${project.filenames[0]}`}
                               />
                             </div>
                           ) : null}
