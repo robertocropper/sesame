@@ -255,7 +255,7 @@ export function Demo() {
                 >
                   <div className="px-6 py-4 overflow-y-auto border-b divide-y max-h-96">
                     <div className="py-4 ">
-                      <Disclosure>
+                      <Disclosure defaultOpen>
                         {({ open }) => (
                           <>
                             <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left rounded-lg text-zinc-600 focus:outline-none focus-visible:ring">
@@ -409,7 +409,7 @@ export function Demo() {
                   {imageLength >= 1 ? (
                     <div className="fixed relative self-center p-10 mx-auto align-middle">
                       <img
-                        src={`${process.env.APP_URL}/assets/demo/${id.filenames}`}
+                        src={`https://sesame.casa/assets/demo/${id.filenames}`}
                         className="rounded-sm"
                       />
                     </div>
@@ -574,7 +574,7 @@ export function Demo() {
                           {enabled && project.filenames.length >= 1 ? (
                             <div className="overflow-hidden h-fit w-72">
                               <img
-                                src={`${process.env.APP_URL}/assets/demo/${project.filenames[0]}`}
+                                src={`https://sesame.casa/assets/demo/${id.filenames[0]}`}
                               />
                             </div>
                           ) : null}

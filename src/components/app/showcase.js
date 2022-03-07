@@ -444,7 +444,7 @@ export default function Showcase() {
                   >
                     <div className="px-6 py-4 overflow-y-auto border-b divide-y max-h-96">
                       <div className="py-4 ">
-                        <Disclosure>
+                        <Disclosure defaultOpen>
                           {({ open }) => (
                             <>
                               <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left rounded-lg text-zinc-600 focus:outline-none focus-visible:ring">
