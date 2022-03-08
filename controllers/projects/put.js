@@ -27,7 +27,7 @@ async function editProject(req, res) {
       `UPDATE PROJECTS SET
         clientObjective = $1,
         service = $2, 
-        keyInfo = $3
+        keyInfo = $3,
         description = $4, 
         status = $5, 
         duration = $6, 
@@ -40,7 +40,7 @@ async function editProject(req, res) {
         clientNiche = $13, 
         clientWords = $14,
         filenames = $15
-        WHERE pid = $16 AND uid = $16`,
+        WHERE pid = $16 AND uid = $17`,
       [
         clientObjective,
         service,

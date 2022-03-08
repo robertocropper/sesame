@@ -98,183 +98,99 @@ export default function True() {
       <Transition appear show={pricingIsOpen} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={closePricingModal}
+          className="fixed inset-0 z-10 mx-auto overflow-y-auto"
+          onClose={() => {}}
         >
-          <div className="max-h-screen px-4 text-left">
+          <div className="min-h-screen px-4 text-center ">
             <Dialog.Overlay className="fixed inset-0 bg-black opacity-10" />
-            <div className="fixed relative w-full max-w-xl p-6 mx-auto mt-40">
-              {enabled === false ? (
-                <div className="fixed relative flex flex-col w-full max-w-xl p-8 align-middle bg-white rounded-md shadow-2xl">
-                  <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-zinc-900">
-                      A Professional's Plan
-                    </h3>
-                    <p className="absolute top-0 py-1.5 px-4 bg-blue-600 rounded-full text-xs font-semibold uppercase tracking-wide text-white transform -translate-y-1/2">
-                      Most popular
-                    </p>
-                    <p className="flex items-baseline mt-4 text-zinc-900">
-                      <span className="text-5xl font-extrabold tracking-tight">
-                        $24
-                      </span>
-                      <span className="ml-1 text-xl font-semibold">/month</span>
-                      <Switch.Group
-                        as="div"
-                        className="flex items-center mt-2 ml-4"
-                      >
-                        <Switch
-                          checked={enabled}
-                          onChange={setEnabled}
-                          className={classNames(
-                            enabled ? "bg-blue-600" : "bg-gray-200",
-                            "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none"
-                          )}
-                        >
-                          <span
-                            aria-hidden="true"
-                            className={classNames(
-                              enabled ? "translate-x-5" : "translate-x-0",
-                              "pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
-                            )}
-                          />
-                        </Switch>
-                        <Switch.Label as="span" className="ml-3">
-                          <span className="text-sm font-medium text-gray-900">
-                            Annual billing
-                          </span>
-                          <span className="text-sm text-zinc-500">
-                            {" "}
-                            (30% OFF)
-                          </span>
-                        </Switch.Label>
-                      </Switch.Group>
-                    </p>
 
-                    <ul role="list" className="mt-6 space-y-6">
-                      <div className="flex">
-                        <CheckIcon
-                          className="flex-shrink-0 w-6 h-6 text-blue-600"
-                          aria-hidden="true"
-                        />
-                        <span className="ml-3 text-zinc-500">
-                          Unlimited Case Studies
-                        </span>
-                      </div>
-                      {/*
-                <div className="flex">
-                  <CheckIcon
-                    className="flex-shrink-0 w-6 h-6 text-blue-600"
-                    aria-hidden="true"
-                  />
-                  <span className="ml-3 text-gray-500">
-                    Discoverable via Search Bar
-                  </span>
-                </div>
-                <div className="flex">
-                  <CheckIcon
-                    className="flex-shrink-0 w-6 h-6 text-blue-600"
-                    aria-hidden="true"
-                  />
-                  <span className="ml-3 text-gray-500">
-                    Uploading Photos & Files
-                  </span>
-                </div>
-                <div className="flex">
-                  <CheckIcon
-                    className="flex-shrink-0 w-6 h-6 text-blue-600"
-                    aria-hidden="true"
-                  />
-                  <span className="ml-3 text-gray-500">
-                    Add Case Study Specific Metrics & KPIs
-                  </span>
-                </div>
-                */}
-                    </ul>
-                  </div>
-                  {user ? (
-                    <form
-                      action="/api/stripe/create-checkout-session"
-                      method="POST"
-                    >
-                      <input type="hidden" name="lookup_key" value="monthly" />
+            <span
+              className="inline-block h-screen align-middle"
+              aria-hidden="true"
+            >
+              &#8203;
+            </span>
+            <div
+              className={
+                "fixed relative inline-block w-full md:w-2/5 m-4 text-left align-middle transition-all transform bg-white border rounded-sm shadow-xl"
+              }
+            >
+              <div className="border-b divide-y">
+                <div className="flex items-center justify-between">
+                  <th className="px-6 text-xs font-medium tracking-wider text-left text-gray-500 uppercase "></th>
+                  <div className="flex justify-end ml-4">
+                    <div className="relative flex justify-end text-left">
                       <button
-                        type="submit"
-                        className="block w-full px-6 py-3 mt-8 text-sm font-medium text-center bg-white border border-gray-300 rounded-md shadow-sm text-zinc-900 hover:bg-gray-50"
+                        onClick={closePricingModal}
+                        className="flex items-center justify-start px-4 py-2 border-none focus:ring-0 hover:bg-gray-100"
                       >
-                        Pay Monthly
+                        <XIcon className="w-6 h-5 text-gray-700" />
                       </button>
-                    </form>
-                  ) : (
-                    <div className="grid grid-cols-2 gap-4">
-                      <Link to="/signup">
-                        <button className="block w-full px-6 py-3 mt-8 text-sm font-medium text-center bg-white border border-gray-300 rounded-md shadow-sm text-zinc-900 hover:bg-gray-50">
-                          Signup
-                        </button>
-                      </Link>
-                      <Link to="/login">
-                        <button className="block w-full px-6 py-3 mt-8 text-sm font-medium text-center bg-white border border-gray-300 rounded-md shadow-sm text-zinc-900 hover:bg-gray-50">
-                          Login
-                        </button>
-                      </Link>
                     </div>
-                  )}
+                  </div>
                 </div>
-              ) : (
-                <div className="fixed relative flex flex-col w-full max-w-xl p-8 align-middle bg-white rounded-md shadow-2xl">
-                  <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-zinc-900">
-                      A Professional's Plan
-                    </h3>
-                    <p className="absolute top-0 py-1.5 px-4 bg-blue-600 rounded-full text-xs font-semibold uppercase tracking-wide text-white transform -translate-y-1/2">
-                      Most popular
-                    </p>
-                    <div className="flex items-baseline mt-4 text-zinc-900">
-                      <span className="text-5xl font-extrabold tracking-tight">
-                        $16
-                      </span>
-                      <span className="ml-1 text-xl font-semibold">/month</span>
-                      <Switch.Group
-                        as="div"
-                        className="flex items-center mt-2 ml-4"
-                      >
-                        <Switch
-                          checked={enabled}
-                          onChange={setEnabled}
-                          className={classNames(
-                            enabled ? "bg-blue-600" : "bg-gray-200",
-                            "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none"
-                          )}
+              </div>
+              <div>
+                {" "}
+                {enabled === false ? (
+                  <div className="fixed relative w-full p-8 mx-auto align-middle">
+                    <div className="flex-1">
+                      <h3 className="text-xl font-semibold text-zinc-900">
+                        A Professional's Plan
+                      </h3>
+                      <p className="absolute top-0 py-1.5 px-4 bg-blue-600 rounded-full text-xs font-semibold uppercase tracking-wide text-white transform -translate-y-1/2">
+                        Most popular
+                      </p>
+                      <p className="flex items-baseline mt-4 text-zinc-900">
+                        <span className="text-5xl font-extrabold tracking-tight">
+                          $24
+                        </span>
+                        <span className="ml-1 text-xl font-semibold">
+                          /month
+                        </span>
+                        <Switch.Group
+                          as="div"
+                          className="flex items-center mt-2 ml-4"
                         >
-                          <span
-                            aria-hidden="true"
+                          <Switch
+                            checked={enabled}
+                            onChange={setEnabled}
                             className={classNames(
-                              enabled ? "translate-x-5" : "translate-x-0",
-                              "pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
+                              enabled ? "bg-blue-600" : "bg-gray-200",
+                              "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none"
                             )}
+                          >
+                            <span
+                              aria-hidden="true"
+                              className={classNames(
+                                enabled ? "translate-x-5" : "translate-x-0",
+                                "pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
+                              )}
+                            />
+                          </Switch>
+                          <Switch.Label as="span" className="ml-3">
+                            <span className="text-sm font-medium text-gray-900">
+                              Annual billing
+                            </span>
+                            <span className="text-sm text-zinc-500">
+                              {" "}
+                              (30% OFF)
+                            </span>
+                          </Switch.Label>
+                        </Switch.Group>
+                      </p>
+
+                      <ul role="list" className="mt-6 space-y-6">
+                        <div className="flex">
+                          <CheckIcon
+                            className="flex-shrink-0 w-6 h-6 text-blue-600"
+                            aria-hidden="true"
                           />
-                        </Switch>
-                        <Switch.Label as="span" className="ml-3">
-                          <span className="text-sm font-medium text-gray-900">
-                            Annual billing
+                          <span className="ml-3 text-zinc-500">
+                            Unlimited Case Studies
                           </span>
-                          <span className="text-sm text-zinc-500">
-                            {" "}
-                            (30% OFF)
-                          </span>
-                        </Switch.Label>
-                      </Switch.Group>
-                    </div>
-                    <ul role="list" className="mt-6 space-y-6">
-                      <div className="flex">
-                        <CheckIcon
-                          className="flex-shrink-0 w-6 h-6 text-blue-600"
-                          aria-hidden="true"
-                        />
-                        <span className="ml-3 text-zinc-500">
-                          Unlimited Case Studies
-                        </span>
-                      </div>
-                      {/*
+                        </div>
+                        {/*
                 <div className="flex">
                   <CheckIcon
                     className="flex-shrink-0 w-6 h-6 text-blue-600"
@@ -303,38 +219,163 @@ export default function True() {
                   </span>
                 </div>
                 */}
-                    </ul>
-                  </div>
-                  {user ? (
-                    <form
-                      action="/api/stripe/create-checkout-session"
-                      method="POST"
-                    >
-                      <input type="hidden" name="lookup_key" value="annually" />
-                      <button
-                        id="checkout-and-portal-button"
-                        type="submit"
-                        className="block w-full px-6 py-3 mt-8 text-sm font-medium text-center bg-white border border-gray-300 rounded-md shadow-sm text-zinc-900 hover:bg-gray-50"
-                      >
-                        Pay Annually
-                      </button>
-                    </form>
-                  ) : (
-                    <div className="grid grid-cols-2 gap-4">
-                      <Link to="/signup">
-                        <button className="block w-full px-6 py-3 mt-8 text-sm font-medium text-center bg-white border border-gray-300 rounded-md shadow-sm text-zinc-900 hover:bg-gray-50">
-                          Signup
-                        </button>
-                      </Link>
-                      <Link to="/login">
-                        <button className="block w-full px-6 py-3 mt-8 text-sm font-medium text-center bg-white border border-gray-300 rounded-md shadow-sm text-zinc-900 hover:bg-gray-50">
-                          Login
-                        </button>
-                      </Link>
+                      </ul>
                     </div>
-                  )}
+                    {user ? (
+                      <form
+                        action="/api/stripe/create-checkout-session"
+                        method="POST"
+                      >
+                        <input
+                          type="hidden"
+                          name="lookup_key"
+                          value="monthly"
+                        />
+                        <button
+                          type="submit"
+                          className="block w-full px-6 py-3 mt-8 text-sm font-medium text-center bg-white border border-gray-300 rounded-md shadow-sm text-zinc-900 hover:bg-gray-50"
+                        >
+                          Pay Monthly
+                        </button>
+                      </form>
+                    ) : (
+                      <div className="grid grid-cols-2 gap-4">
+                        <Link to="/signup">
+                          <button className="block w-full px-6 py-3 mt-8 text-sm font-medium text-center bg-white border border-gray-300 rounded-md shadow-sm text-zinc-900 hover:bg-gray-50">
+                            Signup
+                          </button>
+                        </Link>
+                        <Link to="/login">
+                          <button className="block w-full px-6 py-3 mt-8 text-sm font-medium text-center bg-white border border-gray-300 rounded-md shadow-sm text-zinc-900 hover:bg-gray-50">
+                            Login
+                          </button>
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="fixed relative w-full p-8 mx-auto align-middle">
+                    <div className="flex-1">
+                      <h3 className="text-xl font-semibold text-zinc-900">
+                        A Professional's Plan
+                      </h3>
+                      <p className="absolute top-0 py-1.5 px-4 bg-blue-600 rounded-full text-xs font-semibold uppercase tracking-wide text-white transform -translate-y-1/2">
+                        Most popular
+                      </p>
+                      <div className="flex items-baseline mt-4 text-zinc-900">
+                        <span className="text-5xl font-extrabold tracking-tight">
+                          $16
+                        </span>
+                        <span className="ml-1 text-xl font-semibold">
+                          /month
+                        </span>
+                        <Switch.Group
+                          as="div"
+                          className="flex items-center mt-2 ml-4"
+                        >
+                          <Switch
+                            checked={enabled}
+                            onChange={setEnabled}
+                            className={classNames(
+                              enabled ? "bg-blue-600" : "bg-gray-200",
+                              "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none"
+                            )}
+                          >
+                            <span
+                              aria-hidden="true"
+                              className={classNames(
+                                enabled ? "translate-x-5" : "translate-x-0",
+                                "pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
+                              )}
+                            />
+                          </Switch>
+                          <Switch.Label as="span" className="ml-3">
+                            <span className="text-sm font-medium text-gray-900">
+                              Annual billing
+                            </span>
+                            <span className="text-sm text-zinc-500">
+                              {" "}
+                              (30% OFF)
+                            </span>
+                          </Switch.Label>
+                        </Switch.Group>
+                      </div>
+                      <ul role="list" className="mt-6 space-y-6">
+                        <div className="flex">
+                          <CheckIcon
+                            className="flex-shrink-0 w-6 h-6 text-blue-600"
+                            aria-hidden="true"
+                          />
+                          <span className="ml-3 text-zinc-500">
+                            Unlimited Case Studies
+                          </span>
+                        </div>
+                        {/*
+                <div className="flex">
+                  <CheckIcon
+                    className="flex-shrink-0 w-6 h-6 text-blue-600"
+                    aria-hidden="true"
+                  />
+                  <span className="ml-3 text-gray-500">
+                    Discoverable via Search Bar
+                  </span>
                 </div>
-              )}
+                <div className="flex">
+                  <CheckIcon
+                    className="flex-shrink-0 w-6 h-6 text-blue-600"
+                    aria-hidden="true"
+                  />
+                  <span className="ml-3 text-gray-500">
+                    Uploading Photos & Files
+                  </span>
+                </div>
+                <div className="flex">
+                  <CheckIcon
+                    className="flex-shrink-0 w-6 h-6 text-blue-600"
+                    aria-hidden="true"
+                  />
+                  <span className="ml-3 text-gray-500">
+                    Add Case Study Specific Metrics & KPIs
+                  </span>
+                </div>
+                */}
+                      </ul>
+                    </div>
+                    {user ? (
+                      <form
+                        action="/api/stripe/create-checkout-session"
+                        method="POST"
+                      >
+                        <input
+                          type="hidden"
+                          name="lookup_key"
+                          value="annually"
+                        />
+                        <button
+                          id="checkout-and-portal-button"
+                          type="submit"
+                          className="block w-full px-6 py-3 mt-8 text-sm font-medium text-center bg-white border border-gray-300 rounded-md shadow-sm text-zinc-900 hover:bg-gray-50"
+                        >
+                          Pay Annually
+                        </button>
+                      </form>
+                    ) : (
+                      <div className="grid grid-cols-2 gap-4">
+                        <Link to="/signup">
+                          <button className="block w-full px-6 py-3 mt-8 text-sm font-medium text-center bg-white border border-gray-300 rounded-md shadow-sm text-zinc-900 hover:bg-gray-50">
+                            Signup
+                          </button>
+                        </Link>
+                        <Link to="/login">
+                          <button className="block w-full px-6 py-3 mt-8 text-sm font-medium text-center bg-white border border-gray-300 rounded-md shadow-sm text-zinc-900 hover:bg-gray-50">
+                            Login
+                          </button>
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </Dialog>

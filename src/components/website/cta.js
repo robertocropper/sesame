@@ -7,6 +7,8 @@ export function CTA() {
       <div className="px-4 py-12 mx-auto text-center max-w-7xl sm:px-6 lg:py-16 lg:px-8">
         <h2 className="text-3xl font-extrabold tracking-tight text-zinc-800 sm:text-4xl">
           <span className="block">Standout From Any Shortlists</span>
+          <span className="block">&</span>
+
           <span className="block">Start Free</span>
         </h2>
         <div className="flex justify-center mt-8">

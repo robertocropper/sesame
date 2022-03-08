@@ -14,34 +14,34 @@ const { Plan } = require("../middleware/plan");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
 const aws = require("aws-sdk");
+require("dotenv").config();
 
 const spacesEndpoint = new aws.Endpoint("nyc3.digitaloceanspaces.com");
 const s3 = new aws.S3({
   endpoint: spacesEndpoint,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
 });
 
 let storage;
 
 // Prod File Storage
 
-if (process.env.NODE_ENV === "production") {
-  storage = multerS3({
-    s3: s3,
-    bucket: process.env.STORAGE,
-    acl: "public-read",
-    key: function (req, file, cb) {
-      console.log(file);
-      console.log(s3);
-      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-      cb(null, uniqueSuffix);
-    },
-  });
-}
+//if (process.env.NODE_ENV === "production") {
+storage = multerS3({
+  s3: s3,
+  bucket: process.env.STORAGE,
+  acl: "public-read",
+  key: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+//}
 
 // Dev File Storage
-
+/*
 storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./public/assets");
@@ -51,7 +51,7 @@ storage = multer.diskStorage({
     cb(null, file.originalname + "-" + uniqueSuffix);
   },
 });
-
+*/
 const upload = multer({ storage: storage });
 
 router.get("/:uid/projects", getUserProjects);

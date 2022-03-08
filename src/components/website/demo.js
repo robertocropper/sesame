@@ -10,6 +10,109 @@ function classNames(...classes) {
 const projects = [
   {
     pid: "1",
+    clientObjective: "Scale FB Ads to £20k PM Ad Spend",
+    service: "Managing & Scaling Ads",
+    keyInfo: "2 Ad Campaigns",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    status: "Completed",
+    duration: "4",
+    durationUnit: "mo",
+    costAmount: 25000,
+    costCurrency: "USD",
+    dateCompleted: "February 10th 2022",
+    clientName: "",
+    clientIndustry: "",
+    clientNiche: "",
+    clientWords: "",
+    filenames: [],
+    type: "Media buyer",
+  },
+  {
+    pid: "2",
+    clientObjective: "Relieve Social Anxiety",
+    service: "CBT",
+    keyInfo: "Adolescent",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    status: "Completed",
+    duration: "7",
+    durationUnit: "mo",
+    costAmount: 4000,
+    costCurrency: "EUR",
+    dateCompleted: "January 7th 2022",
+    clientName: "",
+    clientIndustry: "",
+    clientNiche: "",
+    clientWords: "",
+    filenames: [],
+    type: "Psychologist",
+  },
+  {
+    pid: "3",
+    clientObjective: "Lose 24lbs with Sustainable Diet Plan",
+    service: "Diet Plan",
+    keyInfo: "Adolescent",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    status: "Completed",
+    duration: "7",
+    durationUnit: "w",
+    costAmount: 120,
+    costCurrency: "GBP",
+    dateCompleted: "January 7th 2022",
+    clientName: "",
+    clientIndustry: "",
+    clientNiche: "",
+    clientWords: "",
+    filenames: [],
+    type: "Nutrionist",
+  },
+  {
+    pid: "4",
+    clientObjective: "24 Pages of Russian To French",
+    service: "Translation",
+    keyInfo: "Adolescent",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    status: "Completed",
+    duration: "7",
+    durationUnit: "w",
+    costAmount: 120,
+    costCurrency: "GBP",
+    dateCompleted: "January 7th 2022",
+    clientName: "",
+    clientIndustry: "",
+    clientNiche: "",
+    clientWords: "",
+    filenames: [],
+    type: "Translator",
+  },
+  {
+    pid: "3",
+    clientObjective: "Optimised Product Fulfilment Chain",
+    service: "Consulting",
+    keyInfo: "Adolescent",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    status: "Completed",
+    duration: "7",
+    durationUnit: "w",
+    costAmount: 120,
+    costCurrency: "GBP",
+    dateCompleted: "January 7th 2022",
+    clientName: "",
+    clientIndustry: "",
+    clientNiche: "",
+    clientWords: "",
+    filenames: [],
+    type: "Fulfilment Consultant",
+  },
+  /*
+   // Architect
+  {/*
+  {
+    pid: "1",
     clientObjective: "Lengthen Ground Floor with Open Plan Extension",
     service: "Floorplan & Design",
     keyInfo: "Modern Brick",
@@ -28,28 +131,8 @@ const projects = [
     filenames: ["architect"],
     type: "Architect",
   },
-  //Media buyer
-  {
-    pid: "2",
-    clientObjective: "Scale FB Ads to £20k PM Ad Spend",
-    service: "Managing & Scaling Ads",
-    keyInfo: "2 Ad Campaigns",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    status: "Completed",
-    duration: "7",
-    durationUnit: "mo",
-    costAmount: 100000,
-    costCurrency: "USD",
-    dateCompleted: "February 10th 2022",
-    clientName: "",
-    clientIndustry: "",
-    clientNiche: "",
-    clientWords: "",
-    filenames: [],
-    type: "Media buyer",
-  },
-  {
+  
+   {
     pid: "3",
     clientObjective: "Cater to 12 at Private Home Dinner",
     service: "Catering",
@@ -69,99 +152,14 @@ const projects = [
     clientWords: "",
     filenames: ["chef"],
     type: "Chef",
-  },
-  {
-    pid: "4",
-    clientObjective: "Relieve Social Anxiety",
-    service: "CBT",
-    keyInfo: "Adolescent",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    status: "Completed",
-    duration: "18",
-    durationUnit: "mo",
-    costAmount: 7000,
-    costCurrency: "EUR",
-    dateCompleted: "January 7th 2022",
-    clientName: "",
-    clientIndustry: "",
-    clientNiche: "",
-    clientWords: "",
-    filenames: [],
-    type: "Psychologist",
-  },
-
-  /*
-  
-  {
-    // Psychologist
-    pid: "4",
-    clientObjective: "Relieve Social Anxiety",
-    objectiveOption: "Yes",
-    service: "CBT",
-    niche: "24 Year Old Girl",
-    duration: 4,
-    unitOption: "mo",
-    to_char: "December 27th 2021",
-    cost: "700.00",
-    currencyOption: "GBP",
-    specifications:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    process:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    outcome:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    type: "Psychologist",
-    filenames: [],
-  },
-  {
-    // Nutritionist
-    pid: "5",
-    clientObjective: "Lose 24lbs with Sustainable Diet Plan",
-    objectiveOption: "Yes",
-    service: "Custom 12 Week Meal Plan",
-    niche: "Paleo Foods",
-    duration: 2,
-    unitOption: "d",
-    to_char: "November 4th 2021",
-    cost: "100",
-    currencyOption: "USD",
-    specifications:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    process:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    outcome:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    type: "Nutritionist",
-    filenames: [],
-  },
-  {
-    // Interior Designer
-    pid: "6",
-    clientObjective: "Design Mediterranean Living Room",
-    objectiveOption: "Yes",
-    service: "Sourcing & Design",
-    niche: "Mediterranean",
-    duration: 7,
-    unitOption: "d",
-    to_char: "November 1st 2021",
-    cost: "700",
-    currencyOption: "USD",
-    specifications:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    process:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    outcome:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    type: "Interior Designer",
-    filenames: ["interior"],
-  },*/
+  },  
+  */
 ];
 
 export function Demo() {
   const [projectIsOpen, setProjectIsOpen] = useState(false);
   const [id, setId] = useState("");
-  const [enabled, setEnabled] = useState(true);
+  const [enabled, setEnabled] = useState(false);
   const [filteredProjects, setFilteredProjects] = useState(projects);
   const [imageLength, setImageLength] = useState();
 
@@ -243,9 +241,6 @@ export function Demo() {
                     <h3 className="text-4xl font-bold text-zinc-700">
                       {id.clientObjective}
                     </h3>
-                    <span className="ml-4 px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
-                      {id.status}
-                    </span>
                   </div>
                 </div>
                 <div
@@ -276,78 +271,77 @@ export function Demo() {
                         )}
                       </Disclosure>
                       {/*
-                        <Disclosure>
-                          {({ open }) => (
-                            <>
-                              <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left rounded-lg text-zinc-600 focus:outline-none focus-visible:ring">
-                                <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                  The Job Specifications
-                                </p>
+                      <Disclosure>
+                        {({ open }) => (
+                          <>
+                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left rounded-lg text-zinc-600 focus:outline-none focus-visible:ring">
+                              <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                Problem
+                              </p>
 
-                                <ChevronUpIcon
-                                  className={`${
-                                    open ? "transform rotate-180" : ""
-                                  } w-5 h-5 text-zinc-500`}
-                                />
-                              </Disclosure.Button>
-                              <Disclosure.Panel className="px-4 pt-4 pb-2 text-gray-500 text-md">
-                                If you're unhappy with your purchase for any
-                                reason, email us within 90 days and we'll refund
-                                you in full, no questions asked.
-                              </Disclosure.Panel>
-                            </>
-                          )}
-                        </Disclosure>
-                      </div>
-                      <div className="py-4 ">
-                        <Disclosure>
-                          {({ open }) => (
-                            <>
-                              <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left rounded-lg text-zinc-600 focus:outline-none focus-visible:ring">
-                                <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                  Approach
-                                </p>
+                              <ChevronUpIcon
+                                className={`${
+                                  open ? "transform rotate-180" : ""
+                                } w-5 h-5 text-zinc-500`}
+                              />
+                            </Disclosure.Button>
+                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-gray-500 text-md">
+                              If you're unhappy with your purchase for any
+                              reason, email us within 90 days and we'll refund
+                              you in full, no questions asked.
+                            </Disclosure.Panel>
+                          </>
+                        )}
+                      </Disclosure>
+                    </div>
+                    <div className="py-4 ">
+                      <Disclosure>
+                        {({ open }) => (
+                          <>
+                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left rounded-lg text-zinc-600 focus:outline-none focus-visible:ring">
+                              <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                Approach
+                              </p>
 
-                                <ChevronUpIcon
-                                  className={`${
-                                    open ? "transform rotate-180" : ""
-                                  } w-5 h-5 text-zinc-500`}
-                                />
-                              </Disclosure.Button>
-                              <Disclosure.Panel className="px-4 pt-4 pb-2 text-gray-500 text-md">
-                                If you're unhappy with your purchase for any
-                                reason, email us within 90 days and we'll refund
-                                you in full, no questions asked.
-                              </Disclosure.Panel>
-                            </>
-                          )}
-                        </Disclosure>
-                      </div>
+                              <ChevronUpIcon
+                                className={`${
+                                  open ? "transform rotate-180" : ""
+                                } w-5 h-5 text-zinc-500`}
+                              />
+                            </Disclosure.Button>
+                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-gray-500 text-md">
+                              If you're unhappy with your purchase for any
+                              reason, email us within 90 days and we'll refund
+                              you in full, no questions asked.
+                            </Disclosure.Panel>
+                          </>
+                        )}
+                      </Disclosure>
 
-                      <div className="py-4 ">
-                        <Disclosure>
-                          {({ open }) => (
-                            <>
-                              <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left rounded-lg text-zinc-600 focus:outline-none focus-visible:ring">
-                                <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                                  Outcome & Results
-                                </p>
+                    <div className="py-4 ">
+                      <Disclosure>
+                        {({ open }) => (
+                          <>
+                            <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left rounded-lg text-zinc-600 focus:outline-none focus-visible:ring">
+                              <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                Outcome & Results
+                              </p>
 
-                                <ChevronUpIcon
-                                  className={`${
-                                    open ? "transform rotate-180" : ""
-                                  } w-5 h-5 text-zinc-500`}
-                                />
-                              </Disclosure.Button>
-                              <Disclosure.Panel className="px-4 pt-4 pb-2 text-gray-500 text-md">
-                                If you're unhappy with your purchase for any
-                                reason, email us within 90 days and we'll refund
-                                you in full, no questions asked.
-                              </Disclosure.Panel>
-                            </>
-                          )}
-                        </Disclosure>
-                                */}
+                              <ChevronUpIcon
+                                className={`${
+                                  open ? "transform rotate-180" : ""
+                                } w-5 h-5 text-zinc-500`}
+                              />
+                            </Disclosure.Button>
+                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-gray-500 text-md">
+                              If you're unhappy with your purchase for any
+                              reason, email us within 90 days and we'll refund
+                              you in full, no questions asked.
+                            </Disclosure.Panel>
+                          </>
+                        )}
+                      </Disclosure>
+                              </div>*/}
                     </div>
                     <div className="px-6 py-4 text-right border-b divide-y">
                       <div className="py-4 ">
@@ -467,8 +461,9 @@ export function Demo() {
                 </div>
               </div>
             </div>
-
             <div className="flex items-center pt-4 pb-3 space-x-4">
+              {/*
+
               <Switch.Group as="div" className="flex items-center">
                 <Switch
                   checked={enabled}
@@ -492,6 +487,7 @@ export function Demo() {
                   </span>
                 </Switch.Label>
               </Switch.Group>
+                    */}
             </div>
           </div>
           <div className="flex flex-col w-full shadow-2xl ">

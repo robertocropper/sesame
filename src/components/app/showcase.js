@@ -269,14 +269,13 @@ export default function Showcase() {
         <div className="flex items-center max-w-5xl gap-2 mx-auto my-2">
           {user && user.uid === uid ? (
             <>
-              {user.status !== "active" && projects.length >= 2 ? (
+              {user.status !== "active" && projects.length >= 3 ? (
                 <button
                   disabled
                   className="flex items-center justify-start px-2 py-1 my-4 rounded-md hover:bg-gray-100"
                 >
                   <p className="text-xs font-medium text-gray-700 uppercase">
-                    {/*Upgrade Plan To Create More*/}Beta Allows 2 Projects Only
-                    :(
+                    Upgrade Plan To Create More
                   </p>
                   <PlusIcon className="w-6 h-5 ml-2 text-gray-700" />
                 </button>
@@ -430,11 +429,8 @@ export default function Showcase() {
                   <div className="col-span-2 ">
                     <div className="flex items-center px-6 py-10 border-b">
                       <h3 className="text-4xl font-bold text-zinc-700">
-                        {id.clientobjective}{" "}
+                        {id.clientobjective}
                       </h3>
-                      <span className="ml-4 px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
-                        {id.status}
-                      </span>
                     </div>
                   </div>
                   <div
@@ -444,7 +440,7 @@ export default function Showcase() {
                   >
                     <div className="px-6 py-4 overflow-y-auto border-b divide-y max-h-96">
                       <div className="py-4 ">
-                        <Disclosure defaultOpen>
+                        <Disclosure /*defaultOpen*/>
                           {({ open }) => (
                             <>
                               <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left rounded-lg text-zinc-600 focus:outline-none focus-visible:ring">
@@ -464,6 +460,28 @@ export default function Showcase() {
                             </>
                           )}
                         </Disclosure>
+                        {id.clientwords ? (
+                          <Disclosure /*defaultOpen*/>
+                            {({ open }) => (
+                              <>
+                                <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left rounded-lg text-zinc-600 focus:outline-none focus-visible:ring">
+                                  <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                    Client's Words
+                                  </p>
+
+                                  <ChevronUpIcon
+                                    className={`${
+                                      open ? "transform rotate-180" : ""
+                                    } w-5 h-5 text-zinc-500`}
+                                  />
+                                </Disclosure.Button>
+                                <Disclosure.Panel className="px-4 pt-4 pb-2 text-gray-500 text-md">
+                                  "{id.clientwords}"
+                                </Disclosure.Panel>
+                              </>
+                            )}
+                          </Disclosure>
+                        ) : null}
                         {/*
                         <Disclosure>
                           {({ open }) => (
@@ -582,7 +600,27 @@ export default function Showcase() {
                             </span>
                           </div>
                         ) : null}
-                        {id.clientNiche ? (
+                        {id.clientname ? (
+                          <div className="py-4 ">
+                            <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                              Client Name
+                            </p>
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
+                              {id.clientname}
+                            </span>
+                          </div>
+                        ) : null}
+                        {id.clientindustry ? (
+                          <div className="py-4 ">
+                            <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                              Client Industry
+                            </p>
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
+                              {id.clientindustry}
+                            </span>
+                          </div>
+                        ) : null}
+                        {id.clientniche ? (
                           <div className="py-4 ">
                             <p className="text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                               Client Niche
@@ -1015,8 +1053,9 @@ export default function Showcase() {
                 </p>
               </div>
             ))}
-
             <div className="flex items-center pt-4 pb-3 space-x-4">
+              {/*
+
               <Switch.Group as="div" className="flex items-center">
                 <Switch
                   checked={enabled}
@@ -1034,12 +1073,14 @@ export default function Showcase() {
                     )}
                   />
                 </Switch>
+                
                 <Switch.Label as="span" className="ml-3">
                   <span className="text-sm font-medium text-gray-900">
                     Only with Photos
                   </span>
                 </Switch.Label>
-              </Switch.Group>
+                    </Switch.Group>
+                    */}
             </div>
           </div>
           <div className="flex flex-col w-full mb-20 shadow-2xl">

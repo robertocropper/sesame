@@ -16,6 +16,12 @@ const features = [
       "Go Direct, Show You Know What You're Talking About In Digestable Case Studies",
   },
   {
+    name: "Show Off, Humbly",
+    type: "Why",
+    description:
+      "Go Direct, Show You Know What You're Talking About In Digestable Case Studies",
+  },
+  {
     name: "Close Big Clients",
     type: "Why",
 
