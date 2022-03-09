@@ -16,7 +16,7 @@ export function LandingPage() {
             By Showcasing Your Client-Jobs In A Transparent Work-log
           </h1>
           <span className="my-2 inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
-            For Freelancers & Small, Medium-Sized Enterprises
+            For Freelancers & Small, Medium-Sized Businesses
           </span>
         </div>
       </div>

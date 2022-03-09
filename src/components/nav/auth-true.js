@@ -143,7 +143,7 @@ export default function True() {
                       </p>
                       <p className="flex items-baseline mt-4 text-zinc-900">
                         <span className="text-5xl font-extrabold tracking-tight">
-                          $24
+                          £17
                         </span>
                         <span className="ml-1 text-xl font-semibold">
                           /month
@@ -264,7 +264,7 @@ export default function True() {
                       </p>
                       <div className="flex items-baseline mt-4 text-zinc-900">
                         <span className="text-5xl font-extrabold tracking-tight">
-                          $16
+                          £12
                         </span>
                         <span className="ml-1 text-xl font-semibold">
                           /month
@@ -438,7 +438,7 @@ export default function True() {
                     <p className="text-sm font-medium text-gray-900 truncate">
                       {user.displayname}
                     </p>
-
+                    {/*}
                     {user.status !== "active" ? (
                       <span>
                         <button
@@ -455,6 +455,7 @@ export default function True() {
                         </t>
                       </span>
                     ) : null}
+                    */}
                   </div>
                   <div className="py-1">
                     {user.status === "active" ? (

@@ -2,11 +2,9 @@ require("dotenv").config();
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
-const APP_URL = process.env.APP_URL;
-
 async function CreateSubscription(req, res) {
   const prices = await stripe.prices.list({
-    product: "prod_KyJgRCT11Pf4nh",
+    product: process.env.PROFESSIONAL_PLAN,
     lookup_keys: [req.body.lookup_key],
     expand: ["data.product"],
   });
@@ -22,11 +20,10 @@ async function CreateSubscription(req, res) {
     ],
     mode: "subscription",
     metadata: { uid: req.user },
-    success_url: `${APP_URL}/?success=true&session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${APP_URL}?canceled=true`,
+    success_url: `${process.env.APP_URL}/?success=true&session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${process.env.APP_URL}?canceled=true`,
   });
 
-  //console.log(session)
   res.redirect(303, session.url);
 }
 

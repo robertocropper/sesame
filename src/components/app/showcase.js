@@ -275,7 +275,7 @@ export default function Showcase() {
                   className="flex items-center justify-start px-2 py-1 my-4 rounded-md hover:bg-gray-100"
                 >
                   <p className="text-xs font-medium text-gray-700 uppercase">
-                    Upgrade Plan To Create More
+                    Only 3 Jobs Allowed in Beta
                   </p>
                   <PlusIcon className="w-6 h-5 ml-2 text-gray-700" />
                 </button>
